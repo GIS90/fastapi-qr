@@ -69,7 +69,7 @@ def __get_log_dir():
 default config
 """
 # SERVER
-NAME = 'Fastapi-qr'
+NAME = 'Quick-Run API'
 VERSION = 'v1.0.1'
 DEBUG = True
 ADMIN = 'admin'

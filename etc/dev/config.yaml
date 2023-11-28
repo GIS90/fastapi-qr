@@ -1,8 +1,8 @@
 # 基础版本信息配置
 SERVER:
-  NAME: fastapi-qr
+  NAME: "Quick-Run API"
   VERSION: v1.0.1
-  DEBUG: True
+  DEBUG: False
   ADMIN: admin
   ADMIN_AUTH_LIST: ['test1234']   # 用户RTX-ID
 

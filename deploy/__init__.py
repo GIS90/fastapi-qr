@@ -70,7 +70,8 @@ from deploy.utils.status_value import StatusEnum as Status_enum, \
 from deploy.utils.enums import MediaType
 from deploy.utils.logger import logger as LOG
 from deploy.config import APP_SECRET_KEY, APP_ALLOW_HOSTS, APP_CORS_ORIGINS, APP_M_ALLOW_HOSTS, \
-    APP_M_GZIP_SIZE, APP_M_GZIP_LEVEL, APP_BAN_ROUTERS, APP_SESSION_MAX_AGE, SERVER_DEBUG
+    APP_M_GZIP_SIZE, APP_M_GZIP_LEVEL, APP_BAN_ROUTERS, APP_SESSION_MAX_AGE, \
+    SERVER_NAME, SERVER_VERSION, SERVER_DEBUG
 
 
 # FastAPI App instance
@@ -96,13 +97,13 @@ class QRWebAppClass(WebBaseClass):
 
         # app base config
         # ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ -
-        self.app.debug = SERVER_DEBUG
-        self.app.title = "Quick-Run API"
+        self.app.title = SERVER_NAME
         self.app.summary = "作者：高明亮"
         self.app.description = "基于FastAPI搭建的后端APIs，达到快速开发、上线的一款后台API脚手架项目。如果觉得还可以，欢迎点一个🌟支持一下，Thanks。"
-        self.app.version = "1.0.1"
+        self.app.version = SERVER_VERSION
         self.app.docs_url = "/docs"
         self.app.redoc_url = "/redocs"
+        self.app.debug = SERVER_DEBUG
         # ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ -
 
         # app mount[挂载子应用SubAPP]
