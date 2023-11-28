@@ -1,7 +1,3 @@
-- 参数在url中声明了，它将被解释为资源参数path
-- 参数是单一类型（例如int、float、str、bool等），它将被解释为查询参数query
-- 参数类型为继承Pydantic模块的BaseModel类的数据模型类，则它将被解释为请求体参数body
-
 > ## FastAPI-QR介绍
 
 ***FastAPI-QR***   
@@ -60,7 +56,7 @@ https://github.com/GIS90/fastapi-qr.git
   - prod 线上环境
 
 每套配置文件夹下有2个配置文件：
-  - config：项目的db、mail、log等项目开发用的所有配置，这里的log记录项目的log，关于项目相关的配置都可以在此文件进行配置
+  - config.yaml：项目的db、mail、log等项目开发用的所有配置，这里的log记录项目的log，关于项目相关的配置都可以在此文件进行配置
   - uvicorn：项目启动时所需要的IP、port、log、进程数量等配置  
 
 supervisor: 项目进程管理的配置信息，单独一个，部署到线上  
