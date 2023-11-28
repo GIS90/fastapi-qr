@@ -1,0 +1,172 @@
+# -*- coding: utf-8 -*-
+
+"""
+------------------------------------------------
+
+describe: 
+    response view
+
+    一、media-type是什么
+        1、media-type是指媒体类型，它是一种在互联网上传输文件的标准化方式。一个文件可以通过media-type定义的方式告诉接收方它所属的类型。media-type在HTTP通信协议中的作用非常重要，它是HTTP协议通过ContentType字段传递给浏览器告诉浏览器如何解析资源的关键。
+        2、media-type由type和subtype组成，中间用“/”隔开，例如text/html、image/jpeg、application/json等等。type表示文件的大类，比如text表示文本、image表示图像，application表示应用程序；subtype表示type下的具体类型，比如text类型下的subtype可以是plain、html、css等等。
+        3、media-type指定的文件类型是一个通过标准化方式定义的概念，它帮助应用程序区分数据类型并按照类型进行处理，使得在数据传输和共享领域中使用不同的文件格式和处理方式成为可能。
+
+        MediaType对象包含了三种信息：type 、subtype、charset，一般将这些信息传入parse()方法中，这样就可以解析出MediaType对象
+        text/x-markdown; charset=utf-8
+
+    二、media-type的种类
+        text/html：HTML格式
+        text/plain：纯文本格式，空格转换为 “+” 加号，但不对特殊字符编码
+        text/xml：XML格式
+        text/x-markdown：Markdown格式
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        image/gif：gif图片格式
+        image/jpeg：jpg图片格式
+        image/png：png图片格式
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        application/xhtml+xml：XHTML格式
+        application/xml：XML数据格式
+        application/json：用来告诉服务端，消息主体是序列化后的JSON字符串
+        application/pdf：pdf格式
+        application/msword：Word文档格式
+        application/octet-stream：二进制流数据（如常见的文件下载）
+        application/x-www-form-urlencoded：参数为键值对形式，在发送前编码所有字符（默认）。
+            浏览器的原生 <form encType=”” 表单提交类型，如果不设置 enctype 属性，
+            那么最终就会以 application/x-www-form-urlencoded 方式提交数据
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        multipart/form-data：Form表单字符编码，发送大量二进制数据或包含non-ASCII字符的文本,
+            application/x-www-form-urlencoded是效率低下的（需要用更多字符表示一个non-ASCII字符）。
+            需要设定“ <form enctype=‘multipart/form-data’”
+
+    三、media-type的使用
+        在Header中设置Content-Type: text/html; charset=UTF-8
+
+base_info:
+    __author__ = "PyGo"
+    __time__ = "2023/11/26 16:43"
+    __version__ = "v.1.0.0"
+    __mail__ = "gaoming971366@163.com"
+    __blog__ = "www.pygo2.top"
+    __project__ = "fastapi-qr"
+
+usage:
+
+design:
+
+reference urls:
+
+python version:
+    python3
+
+
+Enjoy the good life everyday！！!
+Life is short, I use python.
+
+------------------------------------------------
+"""
+
+# ------------------------------------------------------------
+# usage: /usr/bin/python response.py
+# ------------------------------------------------------------
+from fastapi import APIRouter, status as http_status
+from fastapi.responses import Response, \
+    PlainTextResponse, HTMLResponse, \
+    JSONResponse, StreamingResponse, RedirectResponse
+
+from deploy.utils.enums import MediaType
+from deploy.utils.status import Status
+from deploy.utils.status_value import StatusEnum as Status_enum, \
+    StatusMsg as Status_msg, StatusCode as Status_code
+
+
+# define view
+response = APIRouter(prefix="/response", tags=["Response对象类返回测试示例"])
+
+headers = {"Hello": "World"}
+
+
+@response.get("/response",
+              summary="Response对象测试用例",
+              description="Response对象为基类，包含：content: typing.Any内容；status_code: int状态码，默认200；headers: Optional[typing.Mapping[str, str]]Header；media_type: Optional[str]媒体类型；background: Optional[BackgroundTask]后台任务")
+async def base_response():
+    """
+    :return: Response
+    """
+    """ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+    content: typing.Any内容,
+    status_code: int状态码，默认200,
+    headers: Optional[typing.Mapping[str, str]]Header,
+    media_type: Optional[str]媒体类型,
+    background: Optional[BackgroundTask]后台任务
+    + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + """
+    headers.update({"type": "Response"})
+    return Response(
+        content="I'm Response",
+        status_code=http_status.HTTP_200_OK,
+        headers=headers
+    )
+
+
+@response.get("/plaintext-response",
+              summary="PlainTextResponse对象测试用例",
+              description="继承Response，media_type = text/plain，content直接展示字符串格式")
+async def plaintext_response():
+    """
+    :return: PlainTextResponse
+    """
+    """ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +    
+    class PlainTextResponse(Response):
+        media_type = "text/plain"
+    + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + """
+    headers.update({"type": "PlainTextResponse"})
+    return PlainTextResponse(
+        content="I'm PlainTextResponse",
+        status_code=http_status.HTTP_200_OK,
+        headers=headers,
+        media_type=MediaType.TextPlain.value
+    )
+
+
+@response.get("/html-response",
+              summary="HTMLResponse对象测试用例",
+              description="继承Response，media_type = text/html，content为HTML代码，直接编写HTML、CSS样式")
+async def html_response():
+    """
+    :return: HTMLResponse
+    """
+    """ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +    
+    class HTMLResponse(Response):
+        media_type = "text/html"
+    + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + """
+    headers.update({"type": "HTMLResponse"})
+    return HTMLResponse(
+        content='''<h1 style="color:red">I'm HTMLResponse</h1>''',
+        status_code=http_status.HTTP_200_OK,
+        headers=headers,
+        media_type=MediaType.TextHtml.value
+    )
+
+
+@response.get("/json-response",
+              summary="JSONResponse对象测试用例",
+              description="继承Response，media_type = application/json，content为json数据")
+async def json_response():
+    """
+    :return: JSONResponse
+    """
+    """ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +    
+    class JSONResponse(Response):
+        media_type = "application/json"
+    + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + """
+    headers.update({"type": "JSONResponse"})
+    content = Status(
+        100, 'success', "I'm JSONResponse", {"k1": "v1", "k2": "v2", "k3": "v3"}
+    ).status_body
+    return JSONResponse(
+        content=content,
+        status_code=http_status.HTTP_200_OK,
+        headers=headers,
+        media_type=MediaType.APPJson.value
+    )
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *

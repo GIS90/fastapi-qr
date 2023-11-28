@@ -1,0 +1,3 @@
+- 参数在url中声明了，它将被解释为资源参数path
+- 参数是单一类型（例如int、float、str、bool等），它将被解释为查询参数query
+- 参数类型为继承Pydantic模块的BaseModel类的数据模型类，则它将被解释为请求体参数body
