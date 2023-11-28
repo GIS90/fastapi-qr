@@ -14,22 +14,22 @@ https://github.com/GIS90/fastapi-qr.git
 ```
 线上地址：http://api.pygo2.top/  
 ```
-![deploy/static/api/01基础API.png]  
-![deploy/static/api/02METHOD方法.png]  
-![deploy/static/api/03系统登录与登出.png]  
-![deploy/static/api/04指定Router全局使用Token验证.png]  
-![deploy/static/api/05文件上传.png]  
-![deploy/static/api/06ERROR错误.png]  
-![deploy/static/api/07Response对象类返回测试示例.png]
+![Image](./deploy/static/api/01.png)  
+![Image](./deploy/static/api/02.png)  
+![Image](./deploy/static/api/03.png)  
+![Image](./deploy/static/api/04.png)  
+![Image](./deploy/static/api/05.png)  
+![Image](./deploy/static/api/06.png)  
+![Image](./deploy/static/api/07.png)  
 
 
 > ## 脚手架架构
 
-![Image text](https://img.shields.io/badge/Language-Python-red)
-![mage text](https://img.shields.io/badge/DevStructure-FastAPI-0000FF)
-![mage text](https://img.shields.io/badge/DB-Mysql-green)
-![mage text](https://img.shields.io/badge/Tool-Uvicorn-FFFF00)
-![mage text](https://img.shields.io/badge/Tool-Supervisor-FFFF00)
+![](https://img.shields.io/badge/Language-Python-red)
+![](https://img.shields.io/badge/DevStructure-FastAPI-0000FF)
+![](https://img.shields.io/badge/DB-Mysql-green)
+![](https://img.shields.io/badge/Tool-Uvicorn-FFFF00)
+![](https://img.shields.io/badge/Tool-Supervisor-FFFF00)
 
 
 ### 项目架构
