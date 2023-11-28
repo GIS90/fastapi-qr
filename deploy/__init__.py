@@ -68,26 +68,13 @@ from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.utils.enums import MediaType
-
-# from deploy.utils.logger import logger as LOG
+from deploy.utils.logger import logger as LOG
+from deploy.config import APP_SECRET_KEY, APP_ALLOW_HOSTS, APP_CORS_ORIGINS, APP_M_ALLOW_HOSTS, \
+    APP_M_GZIP_SIZE, APP_M_GZIP_LEVEL, APP_BAN_ROUTERS, APP_SESSION_MAX_AGE, SERVER_DEBUG
 
 
 # FastAPI App instance
 app = FastAPI()
-
-# ip, domain
-CORS_ORIGINS = [
-    "http://127.0.0.1:54321",
-]   # 全部：["*"]
-
-debug = True
-SESSION_SECRET = "hhhhhh"
-SESSION_MAX_AGE = 15 * 24 * 60 * 60     # unit: minute
-ALLOW_HOSTS = ["127.0.0.1"]
-BAN_ROUTERS = ['/ban1', '/ban2']        # TODO 加入子PATH
-
-M_GZIP_SIZE = 1000
-M_GZIP_LEVEL = 9
 
 
 class QRWebAppClass(WebBaseClass):
@@ -104,12 +91,12 @@ class QRWebAppClass(WebBaseClass):
         self.app = app
         self.headers = {"app": "qr"}
         if not self.app:
-            # LOG.info('Web app server initialize is failure......')
+            LOG.info('Web app server initialize is failure......')
             sys.exit(1)
 
         # app base config
         # ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ -
-        self.app.debug = debug
+        self.app.debug = SERVER_DEBUG
         self.app.title = "Quick-Run API"
         self.app.summary = "作者：高明亮"
         self.app.description = "基于FastAPI搭建的后端APIs，达到快速开发、上线的一款后台API脚手架项目。如果觉得还可以，欢迎点一个🌟支持一下，Thanks。"
@@ -128,11 +115,11 @@ class QRWebAppClass(WebBaseClass):
         # 自定义中间件C-Middleware
         @self.app.middleware("http")
         async def cm(request: Request, call_next):
-            print(">>>>> App middleware C-Middleware request")
+            LOG.debug(">>>>> App middleware C-Middleware request")
             # - - - - - - - - - - - - - - - - 请求代码块 - - - - - - - - - - - - - - - -
             # [** 访问IP检查 **]
-            if ALLOW_HOSTS and \
-                    request.client.host not in ALLOW_HOSTS:
+            if APP_ALLOW_HOSTS and \
+                    request.client.host not in APP_ALLOW_HOSTS:
                 content = Status(
                     Status_code.CODE_10000_EXCEPTION.value,
                     Status_enum.FAILURE.value,
@@ -149,7 +136,8 @@ class QRWebAppClass(WebBaseClass):
                 )
 
             # [** 资源请求地址检查 **]
-            if request.url.path in BAN_ROUTERS:
+            # TODO 子路径检查
+            if request.url.path in APP_BAN_ROUTERS:
                 content = Status(
                     Status_code.CODE_10000_EXCEPTION.value,
                     Status_enum.FAILURE.value,
@@ -165,7 +153,7 @@ class QRWebAppClass(WebBaseClass):
                     media_type=MediaType.APPJson.value
                 )
 
-            print(">>>>> App middleware C-Middleware response")
+            LOG.debug(">>>>> App middleware C-Middleware response")
             # + + + + + + + + + + + + + + + + 响应代码块 + + + + + + + + + + + + + + + +
             # [API执行时间]
             start = time.time()
@@ -179,7 +167,7 @@ class QRWebAppClass(WebBaseClass):
         # 中间件 > CORS
         self.app.add_middleware(
             CORSMiddleware,
-            allow_origins=CORS_ORIGINS or ["*"],  # 全部：["*"]
+            allow_origins=APP_CORS_ORIGINS or ["*"],  # 全部：["*"]
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"]
@@ -188,9 +176,9 @@ class QRWebAppClass(WebBaseClass):
         # 中间件 > SESSION会话管理
         self.app.add_middleware(
             SessionMiddleware,
-            secret_key=SESSION_SECRET or "910809ecb44c92db12ad5fa369375d00",    # md5 -qs mingliang.gao
+            secret_key=APP_SECRET_KEY or "910809ecb44c92db12ad5fa369375d00",    # md5 -qs mingliang.gao
             session_cookie="session",
-            max_age=SESSION_MAX_AGE or 15 * 24 * 60 * 60
+            max_age=APP_SESSION_MAX_AGE or 15 * 24 * 60 * 60
         )
 
         # 中间件 > HTTPSRedirectMiddleware(强制所有传入请求必须是 https 或 wss)
@@ -201,15 +189,15 @@ class QRWebAppClass(WebBaseClass):
         # C-Middleware自定义中间件中定义了IP检查
         self.app.add_middleware(
             TrustedHostMiddleware,
-            allowed_hosts=["127.0.0.1"]  # hosts list, [ip, domain]
+            allowed_hosts=APP_M_ALLOW_HOSTS  # hosts list, [ip, domain]
         )
         """
 
         # 中间件 > GZip
         self.app.add_middleware(
             GZipMiddleware,
-            minimum_size=M_GZIP_SIZE,  # default 500byte
-            compresslevel=M_GZIP_LEVEL  # default 9
+            minimum_size=APP_M_GZIP_SIZE,  # default 500byte
+            compresslevel=APP_M_GZIP_LEVEL  # default 9
         )
         # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -275,8 +263,7 @@ class QRWebAppClass(WebBaseClass):
         :return: None
         """
         if router:
-            # LOG.info('Blueprint %s is register' % (router.prefix or '/'))
-            print(f'Blueprint {router.prefix} is register')
+            LOG.info(f'Blueprint {router.prefix} is register')
             self.app.include_router(router)
 
     def _auto_register_blueprint(self):
@@ -289,9 +276,9 @@ class QRWebAppClass(WebBaseClass):
         web app initialize
         :return: None
         """
-        # LOG.info('Web app server start initialize......')
+        LOG.info('Web app server start initialize......')
         self._auto_register_blueprint()
-        # LOG.info('Web app server end initialize......')
+        LOG.info('Web app server end initialize......')
 
 
 def create_app():

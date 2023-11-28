@@ -1,0 +1,46 @@
+# 基础版本信息配置
+SERVER:
+  NAME: fastapi-qr
+  VERSION: v1.0.1
+  DEBUG: False
+  ADMIN: admin
+  ADMIN_AUTH_LIST: ['test1234']   # 用户RTX-ID
+
+
+# APP配置
+APP:
+  SECRET_KEY: IbelivemeIcanfly-gaomingliang
+  ALLOW_HOSTS: ["127.0.0.1"]  # IP列表
+  CORS_ORIGINS: ["*"]
+  SESSION_MAX_AGE: 15 * 24 * 60 * 60  # unit: minute, default 15 days
+  BAN_ROUTERS: ['/ban1', '/ban2']
+  M_GZIP_SIZE: 1000
+  M_GZIP_LEVEL: 9
+  M_ALLOW_HOSTS: []  # TrustedHostMiddleware，支持ip、domain
+
+
+# 日志
+LOG:
+  LOG_DIR: log
+  LOG_LEVEL: debug
+  LOG_FORMATTER: '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s - %(message)s'
+  LOG_FILENAME_PREFIX: fastapi-qr
+
+
+# 数据库
+DB:
+  DB_LINK: mysql+pymysql://opentool:ed39def30b9110d6668013133def82a3@127.0.0.1:3306/opentool?charset=utf8
+
+
+# email
+MAIL:
+  MAIL_SERVER: smtp.163.com
+  MAIL_PORT: 25
+  MAIL_USE_SSL: True
+  MAIL_USERNAME: XXXXXX@163.com
+  MAIL_PASSWORD: XXXXXX
+
+
+# 其他配置
+OTHERS:
+  NOBN: NoNameBody
