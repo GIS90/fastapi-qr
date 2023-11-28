@@ -133,6 +133,6 @@ dmypy.json
 *.pyc
 
 log/*
-deploy/static/
+# deploy/static/
 .qiniu*
 
