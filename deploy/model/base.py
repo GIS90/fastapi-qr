@@ -4,6 +4,8 @@
 ------------------------------------------------
 
 describe: 
+    the class of base model
+    db connection session
 
 base_info:
     __author__ = "PyGo"
@@ -32,22 +34,57 @@ Life is short, I use python.
 # ------------------------------------------------------------
 # usage: /usr/bin/python base.py
 # ------------------------------------------------------------
+import sys
+
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+from deploy.config import DB_LINK
+from deploy.utils.logger import logger as LOG
+
+DBSession = None
 
 
+if not DB_LINK:
+    LOG.critical('DB configuration is unavail')
+    sys.exit(1)
+
+db_link = DB_LINK
+
+ModelBase = declarative_base()
 
 
+def init_database_engine():
+    return create_engine(
+        db_link,
+        echo=False,     # True or False, SQLALCHEMY_ECHO: If set to True SQLAlchemy will log all the statements issued to stderr which can be useful for debugging.
+        pool_recycle=800,
+        pool_size=100
+    )
 
 
+def get_session():
+    # 方式一：全局一个sessionmaker对象
+    global DBSession
+    if not DBSession:
+        db_engine = init_database_engine()
+        DBSession = sessionmaker(bind=db_engine,
+                                 autoflush=True,
+                                 autocommit=True
+                                 )
 
+    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-if __name__ == '__main__':
-    pass
+    # 方式二: 每次都创建sessionmaker对象
+    """
+    db_engine = init_database_engine()
+    DBSession = sessionmaker(bind=db_engine,
+                             autoflush=True,
+                             autocommit=True
+                             )
+    """
 
-
-
-
-
-
-
-
+    return DBSession()
 
