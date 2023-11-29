@@ -63,9 +63,8 @@ StatusMsg = {
     300: "请求方式错误",
 
     # ** request parameter **
-    400: "没有发现请求参数",
-    4001: "缺少请求参数",
-    4002: "缺少RTX-ID信息",
+    400: "缺少请求参数",
+    4001: "缺少RTX-ID信息",
     401: "请求参数类型不合法",
     402: "请求参数不允许为空",
     403: "请求参数错误",
@@ -135,8 +134,7 @@ class StatusCode(Enum):
 
     # ** request parameter **
     CODE_400_REQUEST_PARAMETER_MISS = 400
-    CODE_4001_REQUEST_PARAMETER_MISS_ONE = 4001
-    CODE_4002_REQUEST_PARAMETER_MISS_RTX = 4002
+    CODE_4001_REQUEST_PARAMETER_MISS_RTX = 4001
     CODE_401_REQUEST_PARAMETER_TYPE_ILLEGAL = 401
     CODE_402_REQUEST_PARAMETER_NOT_NULL = 402
     CODE_403_REQUEST_PARAMETER_ERROR = 403
