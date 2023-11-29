@@ -46,7 +46,7 @@ from deploy.utils.status_value import StatusMsg
 
 
 class Status(object):
-    def __init__(self, status_id, status, msg, data=None):
+    def __init__(self, status_id: int, status: str, msg: str, data=None):
         if data is None:
             data = {}
         self.status_body = {

@@ -102,8 +102,9 @@ StatusMsg = {
     604: "数据库提交失败",
 
     # ** other **
-    900: "第三方API接口异常",
+    900: "服务端API请求发生异常，请稍后尝试",
     901: "HTTP异常",
+    902: "第三方API接口异常",
     999: "未知名异常",
 
     # ** 自定义异常原因 **
@@ -172,8 +173,9 @@ class StatusCode(Enum):
     CODE_604_DB_COMMIT_FAILURE = 604
 
     # ** other **
-    CODE_900_OTHER_THREE_API_EXCEPTION = 900
+    CODE_900_SERVER_API_EXCEPTION = 900
     CODE_901_HTTP_EXCEPTION = 901
+    CODE_902_OTHER_THREE_API_EXCEPTION = 902
     CODE_999_NO_KNOWN_EXCEPTION = 999
 
     # ** 自定义异常原因 **
