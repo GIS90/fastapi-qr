@@ -65,9 +65,10 @@ StatusMsg = {
     # ** request parameter **
     400: "缺少请求参数",
     4001: "缺少RTX-ID信息",
-    401: "请求参数类型不合法",
-    402: "请求参数不允许为空",
-    403: "请求参数错误",
+    401: "请求参数不合法",
+    402: "请求参数类型不合法",
+    403: "请求参数不允许为空",
+    404: "请求参数错误",
     # ** request file **
     450: "缺少上传文件",
     451: "文件不存在",
@@ -135,9 +136,10 @@ class StatusCode(Enum):
     # ** request parameter **
     CODE_400_REQUEST_PARAMETER_MISS = 400
     CODE_4001_REQUEST_PARAMETER_MISS_RTX = 4001
-    CODE_401_REQUEST_PARAMETER_TYPE_ILLEGAL = 401
-    CODE_402_REQUEST_PARAMETER_NOT_NULL = 402
-    CODE_403_REQUEST_PARAMETER_ERROR = 403
+    CODE_401_REQUEST_PARAMETER_ILLEGAL = 401
+    CODE_402_REQUEST_PARAMETER_TYPE_ILLEGAL = 402
+    CODE_403_REQUEST_PARAMETER_NOT_NULL = 403
+    CODE_404_REQUEST_PARAMETER_ERROR = 404
     # ** request file **
     CODE_450_REQUEST_FILE_NO_UPLOAD = 450
     CODE_451_REQUEST_FILE_NOT_EXIST = 451

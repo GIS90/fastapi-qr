@@ -240,7 +240,7 @@ class QRWebAppClass(WebBaseClass):
             content = Status(
                 Status_code.CODE_403_REQUEST_PARAMETER_ERROR.value,
                 Status_enum.FAILURE.value,
-                Status_msg.get(403),
+                "请求参数错误" or Status_msg.get(404),
                 jsonable_encoder({"error": exec.errors()})   # jsonable_encoder({"error": exec.errors(), "body": exec.body})   # 返回请求体参数 + errors
             ).status_body
             headers = {"webhook": "RequestValidationError"}
