@@ -64,11 +64,13 @@ StatusMsg = {
 
     # ** request parameter **
     400: "缺少请求参数",
-    4001: "缺少RTX-ID信息",
+    4001: "缺少RTX-ID请求参数",
+    4002: "缺少MD5请求参数",
     401: "请求参数不合法",
     402: "请求参数类型不合法",
     403: "请求参数不允许为空",
-    404: "请求参数错误",
+    404: "请求参数错误",       # 比如电话号11位、邮箱@符号、参数值、枚举值问题
+    405: "请求参数长度超出限制",
     # ** request file **
     450: "缺少上传文件",
     451: "文件不存在",
@@ -93,6 +95,11 @@ StatusMsg = {
     502: "数据已存在，不允许新增",
     503: "数据已删除，不允许操作",
     504: "非数据权限人员，无权限操作",
+    505: "数据不完整，缺少信息",
+    506: "数据锁定字段不允许更新",
+    507: "部分数据新增成功",
+    508: "部分数据删除成功",
+    509: "部分数据更新成功",
 
     # ** db **
     600: "数据库异常",
@@ -105,6 +112,7 @@ StatusMsg = {
     900: "服务端API请求发生异常，请稍后尝试",
     901: "HTTP异常",
     902: "第三方API接口异常",
+    903: "第三方TOKEN初始化失败",
     999: "未知名异常",
 
     # ** 自定义异常原因 **
@@ -135,11 +143,13 @@ class StatusCode(Enum):
 
     # ** request parameter **
     CODE_400_REQUEST_PARAMETER_MISS = 400
-    CODE_4001_REQUEST_PARAMETER_MISS_RTX = 4001
+    CODE_4001_REQUEST_PARAMETER_MISS_RTX = 4001     # 定制
+    CODE_4002_REQUEST_PARAMETER_MISS_MD5 = 4002     # 定制
     CODE_401_REQUEST_PARAMETER_ILLEGAL = 401
     CODE_402_REQUEST_PARAMETER_TYPE_ILLEGAL = 402
     CODE_403_REQUEST_PARAMETER_NOT_NULL = 403
     CODE_404_REQUEST_PARAMETER_ERROR = 404
+    CODE_405_REQUEST_PARAMETER_EXCEED_LEN_MAX = 405
     # ** request file **
     CODE_450_REQUEST_FILE_NO_UPLOAD = 450
     CODE_451_REQUEST_FILE_NOT_EXIST = 451
@@ -163,7 +173,12 @@ class StatusCode(Enum):
     CODE_501_DATA_NOT_EXIST = 501
     CODE_502_DATA_EXIST_NOT_ADD = 502
     CODE_503_DATA_DELETE_NOT_EDIT = 503
-    CODE_504_DARA_AUTH_NOT_EDIT = 504
+    CODE_504_DATA_AUTH_NOT_EDIT = 504
+    CODE_505_DATA_INCOMPLETE = 505
+    CODE_506_DATA_LOCK_FIELD_NOT_UPDATE = 506
+    CODE_507_DATA_PART_ADD = 507
+    CODE_508_DATA_PART_DELETE = 508
+    CODE_509_DATA_PART_UPDATE = 509
 
     # ** db **
     CODE_600_DB_EXCEPTION = 600
@@ -176,6 +191,7 @@ class StatusCode(Enum):
     CODE_900_SERVER_API_EXCEPTION = 900
     CODE_901_HTTP_EXCEPTION = 901
     CODE_902_OTHER_THREE_API_EXCEPTION = 902
+    CODE_903_OTHER_THREE_API_TOKEN_FAILURE = 903
     CODE_999_NO_KNOWN_EXCEPTION = 999
 
     # ** 自定义异常原因 **
