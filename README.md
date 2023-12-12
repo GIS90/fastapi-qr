@@ -38,7 +38,7 @@ https://github.com/GIS90/fastapi-qr.git
 主要用来做API对接，所以只保留了API接口功能，如果想使用前端模板功能，直接在deploy目录下的templates、static下写入html、js等文件即可。  
 ***git clone***之后修改配置即可运行，在此基础上可进行二次开发，可以前端/后台独立、也可以运用jinja2模板。
 
-  - python 开发语言，基于python3.7
+  - python 开发语言，基于python3.9（建议版本）
   - fastapi python语言使用的web api异步框架
   - mysql 数据库
   - uvicorn web服务与应用app之间的管理
