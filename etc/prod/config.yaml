@@ -10,7 +10,7 @@ SERVER:
 # APP配置
 APP:
   SECRET_KEY: IbelivemeIcanfly-gaomingliang
-  ALLOW_HOSTS: ["127.0.0.1"]  # IP列表
+  ALLOW_HOSTS: []  # IP列表 ["127.0.0.1"]
   CORS_ORIGINS: ["*"]
   SESSION_MAX_AGE: 15 * 24 * 60 * 60  # unit: minute, default 15 days
   BAN_ROUTERS: ['/ban1', '/ban2']
