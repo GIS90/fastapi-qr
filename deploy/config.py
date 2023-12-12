@@ -77,7 +77,7 @@ ADMIN_AUTH_LIST = []
 
 # APP
 APP_SECRET_KEY = "IbelivemeIcanfly-gaomingliang"
-APP_ALLOW_HOSTS = ["127.0.0.1"]  # IP列表
+APP_ALLOW_HOSTS = []  # IP列表 ["127.0.0.1"]
 APP_CORS_ORIGINS = ["*"]
 APP_SESSION_MAX_AGE = 15 * 24 * 60 * 60  # unit: minute, default 15 days
 APP_BAN_ROUTERS = ['/ban1', '/ban2']
