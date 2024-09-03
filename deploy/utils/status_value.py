@@ -69,7 +69,7 @@ StatusMsg = {
     401: "请求参数不合法",
     402: "请求参数类型不合法",
     403: "请求参数不允许为空",
-    404: "请求参数错误",       # 比如电话号11位、邮箱@符号、参数值、枚举值问题
+    404: "请求参数值错误",       # 比如电话号11位、邮箱@符号、参数值、枚举值问题
     405: "请求参数长度超出限制",
     # ** request file **
     450: "缺少上传文件",
@@ -148,7 +148,7 @@ class StatusCode(Enum):
     CODE_401_REQUEST_PARAMETER_ILLEGAL = 401
     CODE_402_REQUEST_PARAMETER_TYPE_ILLEGAL = 402
     CODE_403_REQUEST_PARAMETER_NOT_NULL = 403
-    CODE_404_REQUEST_PARAMETER_ERROR = 404
+    CODE_404_REQUEST_PARAMETER_VALUE_ERROR = 404
     CODE_405_REQUEST_PARAMETER_EXCEED_LEN_MAX = 405
     # ** request file **
     CODE_450_REQUEST_FILE_NO_UPLOAD = 450

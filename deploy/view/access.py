@@ -79,8 +79,8 @@ async def access_token(form_data: OAuth2PasswordRequestForm = Depends(OAuth2Pass
     password = form_data.password
     if not username or not password:
         return Status(
-            Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR,
-            Status_enum.FAILURE,
+            Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value,
+            Status_enum.FAILURE.value,
             Status_msg.get(204),
             {}
         ).status_body
@@ -198,8 +198,8 @@ async def jwt_token_me(
     :return: json
     """
     return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
+        Status_code.CODE_100_SUCCESS.value,
+        Status_enum.SUCCESS.value,
         Status_msg.get(100),
         {'rtx_id': token_user_rtx}
     ).status_body
@@ -217,8 +217,8 @@ async def jwt_token_verify_me(
     :return: json
     """
     return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
+        Status_code.CODE_100_SUCCESS.value,
+        Status_enum.SUCCESS.value,
         Status_msg.get(100),
         {'rtx_id': token_user_rtx}
     ).status_body

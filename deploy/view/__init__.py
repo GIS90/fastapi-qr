@@ -40,6 +40,7 @@ from deploy.view.verify import verify
 from deploy.view.upload import upload
 from deploy.view.error import error
 from deploy.view.response import response
+from deploy.view.api import api
 
 
 __all__ = ["add_routers"]
@@ -53,4 +54,5 @@ add_routers = [
     upload,
     error,
     response,
+    api,
 ]
