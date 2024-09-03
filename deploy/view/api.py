@@ -57,8 +57,6 @@ async def zlxcx_process(params: ApiZlxcxProcessModel):
     :param params: [dict]查询请求参数
     :return: json
     """
-    print('*' * 100)
-    print(Request.method)
     if Request.method == 'GET':
         return Status(
             Status_code.CODE_300_REQUEST_METHOD_ERROR.value,
