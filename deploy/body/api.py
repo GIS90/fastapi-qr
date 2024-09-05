@@ -42,7 +42,7 @@ class ApiZlxcxProcessModel(baseModel):
     process
     """
     xmbh: str = Field(..., min_length=1, max_length=8, description="项目编号")
-    year: int = Field(..., gt=2023, lt=10000, description="年份")
+    year: int = Field(..., ge=2023, le=10000, description="年份")
     quarter: str = Field(..., min_length=1, max_length=4, description="季度")
 
     class Config:
