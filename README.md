@@ -190,7 +190,8 @@ mysqldump
 
 安装：pip install uvicorn
 
-如需特别项目启动信息，可以加入uvicorn.conf或者更改命令行uvicorn启动方式加入参数即可
+如需特别项目启动信息，可以加入uvicorn.conf或者更改命令行uvicorn启动方式加入参数即可。  
+官网地址：https://www.uvicorn.org/
 
 ### crontab
 
