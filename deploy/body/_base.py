@@ -3,12 +3,12 @@
 """
 ------------------------------------------------
 
-describe:
-    access body
+describe: 
+    base model
 
 base_info:
     __author__ = "PyGo"
-    __time__ = "2023/11/25 11:02"
+    __time__ = "2023/11/23 22:01"
     __version__ = "v.1.0.0"
     __mail__ = "gaoming971366@163.com"
     __blog__ = "www.pygo2.top"
@@ -31,14 +31,9 @@ Life is short, I use python.
 """
 
 # ------------------------------------------------------------
-# usage: /usr/bin/python access.py
+# usage: /usr/bin/python base.py
 # ------------------------------------------------------------
-from deploy.body._base import baseModel
+from pydantic import BaseModel
 
 
-class TokenBody(baseModel):
-    """
-    Token body
-    """
-    access_token: str
-    token_type: str
+baseModel = BaseModel
