@@ -17,6 +17,7 @@ base_info:
 usage:
 
 design:
+    2024.10.08 update：采用pathlib方式
 
 reference urls:
 
@@ -36,37 +37,54 @@ Life is short, I use python.
 import os
 import sys
 import yaml
-import inspect
 import logging
+from pathlib import Path
 
 
+# config file absolute path
+config_abspath_file = Path(__file__).resolve()
+if not config_abspath_file.is_absolute():
+    _os_path = os.path.dirname(os.path.abspath(__file__))
+    config_abspath_file = Path(_os_path)
 # logging.basicConfig()
 logger = logging.getLogger(__name__)
 
 
-# get current folder, solve is or not frozen of the script
-def _get_cur_folder():
-    if getattr(sys, "frozen", False):
-        return os.path.dirname(os.path.abspath(__file__))
-    else:
-        cur_folder = os.path.dirname(inspect.getfile(inspect.currentframe()))
-        return os.path.abspath(cur_folder)
+# get deploy folder, solve is or not frozen of the script
+def _get_deploy_folder():
+    return config_abspath_file.parent
+
+
+# get deploy folder, solve is or not frozen of the script
+def _get_root_folder():
+    return _get_deploy_folder().parent
 
 
 # get current run config by mode
 def _get_config(mode='dev'):
+    # not allow mode parameters
     if mode not in ['dev', 'prod']:
         return None
-    return os.path.join(os.path.join(os.path.join(os.path.dirname(_get_cur_folder()), 'etc'), mode), 'config.yaml')
+    # root path is not abs
+    root = _get_root_folder()
+    if not root.is_absolute():
+        return None
+    
+    return root.joinpath('etc').joinpath(mode).joinpath('config.yaml')
 
 
 # default log dir
-def __get_log_dir():
-    return os.path.join(os.path.dirname(_get_cur_folder()), 'log')
+def _get_log_folder():
+    root = _get_root_folder()
+    if not root.is_absolute():
+        return None
+
+    return root.joinpath('log')
 
 
 """
 default config
+avoid initialization parameters is empty
 """
 # SERVER
 NAME = 'Quick-Run API'
@@ -89,7 +107,7 @@ APP_M_ALLOW_HOSTS = []  # TrustedHostMiddleware，支持ip、domain
 DB_LINK = None
 
 # LOG
-LOG_DIR = __get_log_dir()
+LOG_DIR = _get_log_folder()
 LOG_LEVEL = "debug"
 LOG_FORMATTER = "%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s - %(message)s"
 LOG_FILENAME_PREFIX = 'base_webframe'
@@ -105,7 +123,7 @@ MAIL_PASSWORD = None
 NOBN = 'NoNameBody'
 
 """
-enrty: initializate config
+Entry: initialize config
 """
 mode = os.environ.get('mode') or 'dev'
 _config_file = _get_config(mode)
@@ -141,7 +159,7 @@ with open(_config_file, 'r', encoding='UTF-8') as f:
 
     # LOG
     if _config_info['LOG']['LOG_DIR']:
-        LOG_DIR = os.path.join(os.path.dirname(_get_cur_folder()), _config_info['LOG']['LOG_DIR'])
+        LOG_DIR = os.path.join(os.path.dirname(_get_deploy_folder()), _config_info['LOG']['LOG_DIR'])
     else:
         LOG_DIR = LOG_DIR
     if not os.path.exists(LOG_DIR):
