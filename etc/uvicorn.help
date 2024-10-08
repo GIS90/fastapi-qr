@@ -1,8 +1,7 @@
 官网：https://www.uvicorn.org/
 
 Options:
-  --host TEXT                     Bind socket to this host.  [default:
-                                  127.0.0.1]
+  --host TEXT                     Bind socket to this host.  [default: 127.0.0.1]
   --port INTEGER                  Bind socket to this port.  [default: 8000]
   --uds TEXT                      Bind to a UNIX domain socket.
   --fd INTEGER                    Bind to socket from this file descriptor.
