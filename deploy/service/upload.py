@@ -37,14 +37,14 @@ import os
 from datetime import datetime
 from fastapi import File, UploadFile
 from pathlib import Path as pathlib_path, PurePath as pathlib_purep
-from deploy.utils.utils import get_root_dir, d2s
+from deploy.utils.utils import get_root_folder, d2s
 from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 
 
 # 定一个临时文件存储abs路径
-abs_store_folder = pathlib_path.joinpath(get_root_dir(), 'deploy/static')
+abs_store_folder = pathlib_path.joinpath(get_root_folder(), 'deploy/static')
 
 
 class UploadService(object):

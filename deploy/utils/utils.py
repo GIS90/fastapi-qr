@@ -41,12 +41,10 @@ import platform
 from datetime import datetime, timedelta
 from pathlib import Path, PurePath
 # from functools import wraps
-from flask import session
 from deploy.config import ADMIN, ADMIN_AUTH_LIST
 
+
 """ - - - - - - - - - - - - - - - - - 加密类 - - - - - - - - - - - - - - - - -"""
-
-
 def md5(v):
     """
     字符串md5加密
@@ -80,8 +78,6 @@ def filename2md5(rtx_id: str = None, file_name: str = None, _type: str = 'file')
 
 
 """ - - - - - - - - - - - - - - - - - 时间、日期 - - - - - - - - - - - - - - - - -"""
-
-
 def s2d(s, fmt="%Y-%m-%d %H:%M:%S"):
     """
     字符串转日期
@@ -167,13 +163,13 @@ def get_now_date():
     return datetime.now().date()
 
 
-def get_now(fmt="%Y-%m-%d %H:%M:%S"):
+def get_now(format="%Y-%m-%d %H:%M:%S"):
     """
     获取当前时间，字符串类型
 
     :return: to return the now of string type
     """
-    return d2s(datetime.now(), fmt)
+    return d2s(datetime.now(), format)
 
 
 def get_week_day(date):
@@ -229,16 +225,6 @@ def get_day_week_date(query_date):
 
 
 """ - - - - - - - - - - - - - - - - - 用户类 - - - - - - - - - - - - - - - - -"""
-
-
-def get_user_id():
-    """
-    get current request link user rtx id
-    :return: rtx id or None
-    """
-    return session.get('rtx-id') or session.get('user_id')
-
-
 def get_real_ip(request):
     """
     get request real ip
@@ -263,8 +249,6 @@ def get_rtx_id(request):
 
 
 """ - - - - - - - - - - - - - - - - - 文件、目录 - - - - - - - - - - - - - - - - -"""
-
-
 def mk_dirs(path):
     """
     make folder（递归方式）
@@ -318,8 +302,6 @@ def get_root_folder():
 
 
 """ - - - - - - - - - - - - - - - - - 参数校验类 - - - - - - - - - - - - - - - - -"""
-
-
 def v2decimal(x, y):
     """
     保留小数
@@ -349,8 +331,6 @@ def check_length(data, limit=10):
 
 
 """ - - - - - - - - - - - - - - - - - 信息类、通讯类 - - - - - - - - - - - - - - - - -"""
-
-
 def ping(ip: str, **kwargs):
     """
     insect to ping the ip connection
@@ -436,8 +416,6 @@ def host_os():
 
 
 """ - - - - - - - - - - - - - - - - - 权限类 - - - - - - - - - - - - - - - - -"""
-
-
 def auth_rtx_join(rtx_list=None) -> list:
     """
     管理员特殊数据权限
@@ -480,8 +458,6 @@ def api_inspect_rtx() -> dict:
 
 
 """ - - - - - - - - - - - - - - - - - 数据类 - - - - - - - - - - - - - - - - -"""
-
-
 def get_file_size(path, unit: str = 'KB'):
     """
     获取传入的文件大小，以默认KB大小返回
@@ -505,10 +481,10 @@ def get_file_size(path, unit: str = 'KB'):
     elif __unit == 'KB':
         return size / b
     elif __unit == 'MB':
-        return size / b ** 2
+        return size / b**2
     elif __unit == 'GB':
-        return size / b ** 3
+        return size / b**3
     elif __unit == 'TB':
-        return size / b ** 4
+        return size / b**4
     else:
         return size
