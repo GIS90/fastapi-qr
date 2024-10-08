@@ -127,7 +127,7 @@ class QRWebAppClass(WebBaseClass):
                     f"IP not allow access: {request.client.host}",
                     {}
                 ).status_body
-                headers = {"webhook": "CM-IP"}
+                headers = {"app-cm-request-webhook": "CM-IP"}
                 headers.update(self.headers)
                 return JSONResponse(
                     content=content,
@@ -145,7 +145,7 @@ class QRWebAppClass(WebBaseClass):
                     f"Request resource is forbid: {request.url.path}",
                     {}
                 ).status_body
-                headers = {"webhook": "CM-PATH"}
+                headers = {"app-cm-request-webhook": "CM-PATH"}
                 headers.update(self.headers)
                 return JSONResponse(
                     content=content,
@@ -161,7 +161,7 @@ class QRWebAppClass(WebBaseClass):
             response = await call_next(request)
             end = time.time()
             response.headers["X-API-Process-Timer"] = str(end - start)
-            response.headers["X-Mw"] = "C-Middleware"
+            response.headers["X-App-CM-Response-Webhook"] = "C-Middleware-Timer"
 
             return response
 
@@ -219,7 +219,7 @@ class QRWebAppClass(WebBaseClass):
                 Status_msg.get(901),
                 {"error": exec.detail}
             ).status_body
-            headers = {"webhook": "HTTPException"}
+            headers = {"app-cm-exception-webhook": "HTTPException"}
             headers.update(self.headers)
             return JSONResponse(
                 content=content,
@@ -243,7 +243,7 @@ class QRWebAppClass(WebBaseClass):
                 "请求参数错误" or Status_msg.get(404),
                 jsonable_encoder({"error": exec.errors()})   # jsonable_encoder({"error": exec.errors(), "body": exec.body})   # 返回请求体参数 + errors
             ).status_body
-            headers = {"webhook": "RequestValidationError"}
+            headers = {"app-cm-exception-webhook": "RequestValidationError"}
             headers.update(self.headers)
             return JSONResponse(
                 content=content,
