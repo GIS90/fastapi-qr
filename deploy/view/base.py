@@ -267,6 +267,12 @@ async def user(
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 """
 Body
+参数可以定义多个model：
+    name: str,
+    user01: User,
+    user02: User,
+    age: int,
+    page: int = Query()
 """
 
 
