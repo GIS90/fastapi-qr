@@ -127,7 +127,7 @@ class QRWebAppClass(WebBaseClass):
                     f"IP not allow access: {request.client.host}",
                     {}
                 ).status_body
-                headers = {"app-cm-request-webhook": "CM-IP"}
+                headers = {"X-App-CM-Request-Webhook": "CM-IP"}
                 headers.update(self.headers)
                 return JSONResponse(
                     content=content,
@@ -145,7 +145,7 @@ class QRWebAppClass(WebBaseClass):
                     f"Request resource is forbid: {request.url.path}",
                     {}
                 ).status_body
-                headers = {"app-cm-request-webhook": "CM-PATH"}
+                headers = {"X-App-CM-Request-Webhook": "CM-PATH"}
                 headers.update(self.headers)
                 return JSONResponse(
                     content=content,
@@ -160,7 +160,7 @@ class QRWebAppClass(WebBaseClass):
             start = time.time()
             response = await call_next(request)
             end = time.time()
-            response.headers["X-API-Process-Timer"] = str(end - start)
+            response.headers["X-App-CM-Timer"] = str(end - start)
             response.headers["X-App-CM-Response-Webhook"] = "C-Middleware-Timer"
 
             return response
