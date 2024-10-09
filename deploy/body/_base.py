@@ -31,7 +31,7 @@ Life is short, I use python.
 """
 
 # ------------------------------------------------------------
-# usage: /usr/bin/python base.py
+# usage: /usr/bin/python _base.py
 # ------------------------------------------------------------
 from pydantic import BaseModel
 
