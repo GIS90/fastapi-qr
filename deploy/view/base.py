@@ -202,7 +202,28 @@ async def user(rtx_id: Optional[str] = None):
 
 
 @base.get('/user/query/q-str',
-          summary="**Query限制**字符型查询参数请求示例",
+          summary="**Query限制**字符型查询参数请求示例[非正则参数请求]",
+          description="参数为字符串，使用fastapi.Query进行参数条件限制，包含description[描述]，min_length[最小长度]，max_length[最大长度]，regex[正则表达式]，参数限制可省略，"
+                      "如果使用Query定义参数为必填参数，第一个参数为...（看源码是语法糖写法）"
+          )
+async def user(
+        rtx_id: str = Query(..., description="查询参数rtx_id", min_length=1, max_length=12)
+):
+    """
+    Query限制字符型查询参数请求示例
+    :param rtx_id: [str]查询请求参数
+    :return: json
+    """
+    return Status(
+        Status_code.CODE_100_SUCCESS,
+        Status_enum.SUCCESS,
+        Status_msg.get(100),
+        {'rtx_id': rtx_id}
+    ).status_body
+
+
+@base.get('/user/query/q-str-regex',
+          summary="**Query限制**字符型查询参数请求示例[正则参数请求]",
           description="参数为字符串，使用fastapi.Query进行参数条件限制，包含description[描述]，min_length[最小长度]，max_length[最大长度]，regex[正则表达式]，参数限制可省略，"
                       "如果使用Query定义参数为必填参数，第一个参数为...（看源码是语法糖写法）"
           )
