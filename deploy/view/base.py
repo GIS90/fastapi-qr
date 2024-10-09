@@ -408,6 +408,11 @@ def header(
         {"User-Agent": user_agent, "X-Token": x_token}
     ).status_body
 
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+"""
+deprecated
+"""
+
 
 @base.get('/deprecated',
           summary="过时接口示例",
