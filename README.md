@@ -5,8 +5,11 @@
 
 
 ### 项目地址
-https://github.com/GIS90/fastapi-qr.git
-后台WIKI设计说明：https://github.com/GIS90/fastapi-qr/wiki
+https://github.com/GIS90/fastapi-qr.git  
+
+
+### 后台WIKI设计说明
+https://github.com/GIS90/fastapi-qr/wiki
 
 
 ### 线上地址
