@@ -113,7 +113,8 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     token_apply_time = data.get('apply_time') if data.get('apply_time') else datetime.utcnow()
     to_encode_data['apply_time'] = d2s(token_apply_time, fmt="%Y-%m-%d %H:%M:%S")
     # token过期日期
-    expire = token_apply_time + expires_delta if expires_delta else token_apply_time + timedelta(minutes=TOKEN_DEFAULT_EXPIRE_MINUTES)  # 如果没有配置默认登录时长，默认4h
+    expire = token_apply_time + expires_delta if expires_delta \
+        else token_apply_time + timedelta(minutes=TOKEN_DEFAULT_EXPIRE_MINUTES)  # 如果没有配置默认登录时长，默认4h
     to_encode_data['expire_time'] = d2s(expire, fmt="%Y-%m-%d %H:%M:%S")
     to_encode_data.update({"exp": expire})  # jwt过期时间KEY：['exp', 'iat', 'nbf']
     encoded_jwt = jwt.encode(claims=to_encode_data, key=TOKEN_SECRET_KEY, algorithm=TOKEN_ALGORITHM)
