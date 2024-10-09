@@ -53,7 +53,7 @@ from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 
 # define view
-base = APIRouter(prefix="", tags=["基础API"])
+base = APIRouter(prefix="", tags=["基础API：Path Query Body Form Cookie Header"])
 
 
 @base.get('/',

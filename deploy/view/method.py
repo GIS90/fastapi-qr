@@ -49,7 +49,7 @@ from deploy.utils.status_value import StatusEnum as Status_enum, \
 
 
 # define view
-method = APIRouter(prefix="/method", tags=["METHOD方法"])
+method = APIRouter(prefix="/method", tags=["METHOD请求方法"])
 
 
 @method.get('/get',
