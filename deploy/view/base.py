@@ -102,7 +102,7 @@ async def user(rtx_id: str):
                       "如果使用Path定义参数为必填参数，第一个参数为...（看源码是语法糖写法）"
           )
 async def user(
-        rtx_id: str = Path(..., description="资源参数rtx_id", min_length=1, max_length=12, regex="user")
+        rtx_id: str = Path(..., description="[字符型]资源参数rtx_id", min_length=1, max_length=12, regex="user")
 ):
     """
     Path限制字符型资源参数请求示例
@@ -123,7 +123,7 @@ async def user(
                       "如果使用Path定义参数为必填参数，第一个参数为...（看源码是语法糖写法）"
           )
 async def user(
-        rtx_id: int = Path(..., description="资源参数rtx_id", ge=1, le=10000)
+        rtx_id: int = Path(..., description="[整型]资源参数rtx_id", ge=1, le=10000)
 ):
     """
     Path限制整型资源参数请求示例
