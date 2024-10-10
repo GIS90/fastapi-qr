@@ -41,6 +41,7 @@ from deploy.utils.status_value import StatusEnum as Status_enum, \
 from deploy.body.api import ApiZlxcxProcessModel
 from deploy.service.api import ApiService
 
+
 # define view
 api = APIRouter(prefix="/api", tags=["微信小程序API"])
 api_service = ApiService()

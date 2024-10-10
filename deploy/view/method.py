@@ -56,7 +56,7 @@ method = APIRouter(prefix="/method", tags=["METHOD请求方法"])
             summary="GET请求请求示例",
             description="GET请求请求示例"
             )
-async def user(rtx_id: str):
+async def method_get(rtx_id: str):
     """
     GET请求请求示例
     :param rtx_id: [str]查询请求参数
@@ -74,7 +74,7 @@ async def user(rtx_id: str):
              summary="POST请求请求示例",
              description="POST请求请求示例"
              )
-async def user(rtx_id: str):
+async def method_post(rtx_id: str):
     """
     POST请求请求示例
     :param rtx_id: [str]查询请求参数
@@ -92,7 +92,7 @@ async def user(rtx_id: str):
             summary="PUT请求请求示例",
             description="PUT请求请求示例"
             )
-async def user(rtx_id: str):
+async def method_put(rtx_id: str):
     """
     PUT请求请求示例
     :param rtx_id: [str]查询请求参数
@@ -110,7 +110,7 @@ async def user(rtx_id: str):
                summary="DELETE请求请求示例",
                description="DELETE请求请求示例"
                )
-async def user(rtx_id: str):
+async def method_delete(rtx_id: str):
     """
     DELETE请求请求示例
     :param rtx_id: [str]查询请求参数
@@ -128,7 +128,7 @@ async def user(rtx_id: str):
              summary="HEAD请求请求示例",
              description="HEAD请求请求示例"
              )
-async def user(rtx_id: str):
+async def method_head(rtx_id: str):
     """
     HEAD请求请求示例
     :param rtx_id: [str]查询请求参数
@@ -146,7 +146,7 @@ async def user(rtx_id: str):
                 summary="OPTIONS请求请求示例",
                 description="OPTIONS请求请求示例"
                 )
-async def user(rtx_id: str):
+async def method_options(rtx_id: str):
     """
     OPTIONS请求请求示例
     :param rtx_id: [str]查询请求参数
@@ -164,7 +164,7 @@ async def user(rtx_id: str):
               summary="PATCH请求请求示例",
               description="PATCH请求请求示例"
               )
-async def user(rtx_id: str):
+async def method_patch(rtx_id: str):
     """
     PATCH请求请求示例
     :param rtx_id: [str]查询请求参数

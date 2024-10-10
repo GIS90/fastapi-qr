@@ -47,6 +47,7 @@ from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.utils.utils import d2s
 
+
 # define view
 access = APIRouter(prefix="/access", tags=["系统登陆与登出，使用JWT验证"])
 
