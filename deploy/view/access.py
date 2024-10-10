@@ -70,7 +70,7 @@ credentials_exception = HTTPException(
              summary="用户Token API",
              description="依据用户提供的username，password参数（KEY不可更改），获取用户登录Token"
              )
-async def access_token(form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm)):
+async def access_token(form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm)) -> dict:
     """
     用户Token API
     :param form_data: Form表单对象
@@ -100,7 +100,7 @@ async def access_token(form_data: OAuth2PasswordRequestForm = Depends(OAuth2Pass
     return {"access_token": token, "token_type": "Bearer"}
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     """
     generate access token
     :param data: [dict]数据

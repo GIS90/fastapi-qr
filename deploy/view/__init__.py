@@ -37,6 +37,7 @@ from deploy.view.base import base
 from deploy.view.method import method
 from deploy.view.response import response
 from deploy.view.upload import upload
+from deploy.view.depend import depend
 from deploy.view.access import access
 from deploy.view.verify import verify
 from deploy.view.error import error
@@ -51,6 +52,7 @@ add_routers = [
     method,
     response,
     upload,
+    depend,
     access,
     verify,
     error,

@@ -52,7 +52,7 @@ error = APIRouter(prefix="/error", tags=["ERROR错误"])
            )
 async def error_http_exception_404(
         exec: bool = False
-):
+) -> dict:
     """
     自定义HTTPException异常处理 > HTTP_404_NOT_FOUND
     :param exec: 是否触发异常
@@ -78,7 +78,7 @@ async def error_http_exception_404(
            )
 async def error_http_exception_500(
     exec: bool = False
-):
+) -> dict:
     """
     自定义HTTPException异常处理 > HTTP_500_INTERNAL_SERVER_ERROR
     :param exec: 是否触发异常
@@ -104,7 +104,7 @@ async def error_http_exception_500(
            )
 async def error_request_valid_error(
     exec: bool = False
-):
+) -> dict:
     """
     自定义RequestValidationError异常处理
     :param exec: 是否触发异常

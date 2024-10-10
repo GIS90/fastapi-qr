@@ -56,7 +56,7 @@ API利用Token进行验证，很多API都是在资源参数/查询参数/Header/
 @verify.get("/v1",
             summary="校验Token的rtx-id数据，V1示例",
             description=verify_description)
-async def verify_v1(request: Request):
+async def verify_v1(request: Request) -> dict:
     """
     token_user_rtx: [str]当前Token登录对象rtx-id
     :return: json

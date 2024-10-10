@@ -88,7 +88,7 @@ headers = {"Hello": "World"}
 @response.get("/response",
               summary="Response对象测试用例",
               description="Response对象为基类，包含：content: typing.Any内容；status_code: int状态码，默认200；headers: Optional[typing.Mapping[str, str]]Header；media_type: Optional[str]媒体类型；background: Optional[BackgroundTask]后台任务")
-async def base_response():
+async def base_response() -> Response:
     """
     :return: Response
     """
@@ -110,7 +110,7 @@ async def base_response():
 @response.get("/plaintext-response",
               summary="PlainTextResponse对象测试用例",
               description="继承Response，media_type = text/plain，content直接展示字符串格式")
-async def plaintext_response():
+async def plaintext_response() -> PlainTextResponse:
     """
     :return: PlainTextResponse
     """
@@ -130,7 +130,7 @@ async def plaintext_response():
 @response.get("/html-response",
               summary="HTMLResponse对象测试用例",
               description="继承Response，media_type = text/html，content为HTML代码，直接编写HTML、CSS样式")
-async def html_response():
+async def html_response() -> HTMLResponse:
     """
     :return: HTMLResponse
     """
@@ -150,7 +150,7 @@ async def html_response():
 @response.get("/json-response",
               summary="JSONResponse对象测试用例",
               description="继承Response，media_type = application/json，content为json数据")
-async def json_response():
+async def json_response() -> JSONResponse:
     """
     :return: JSONResponse
     """

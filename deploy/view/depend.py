@@ -37,8 +37,10 @@ Life is short, I use python.
 # ------------------------------------------------------------
 # usage: /usr/bin/python depend.py
 # ------------------------------------------------------------
-from fastapi import APIRouter, Request
+from typing import List, Tuple, Dict, Set, Optional, Union
+from fastapi import APIRouter, Request, Depends
 
+from deploy.body.depend import BasePageBody
 from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
@@ -48,11 +50,48 @@ from deploy.utils.status_value import StatusEnum as Status_enum, \
 depend = APIRouter(prefix="/depend", tags=["Depend依赖注入"])
 
 
-@depend.get('/',
-          summary="Welcome to FastAPI-QR脚手架",
-          description="Hello FastAPI-QR脚手架!"
-          )
-async def hi():
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+"""
+函数依赖
+"""
+# 页面数据通用参数
+async def page_common_parameters(parameter: BasePageBody) -> dict:
+    return parameter.model_dump()
+
+
+@depend.post('/depend',
+             summary="[函数依赖]同步请求依赖注入",
+             description="方法使用同步请求"
+             )
+def async_depend(page: dict = Depends(page_common_parameters)) -> dict:
     """
     :return: JSON
     """
+    return Status(
+        Status_code.CODE_100_SUCCESS,
+        Status_enum.SUCCESS,
+        Status_msg.get(100),
+        {**page, **{"type": "同步请求"}}
+    ).status_body
+
+
+@depend.post('/async_depend',
+             summary="[函数依赖]异步请求依赖注入",
+             description="方法使用async异步请求"
+             )
+async def async_depend(page: dict = Depends(page_common_parameters)) -> dict:
+    """
+    :return: JSON
+    """
+    return Status(
+        Status_code.CODE_100_SUCCESS,
+        Status_enum.SUCCESS,
+        Status_msg.get(100),
+        {**page, **{"type": "异步请求"}}
+    ).status_body
+
+
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+"""
+类依赖
+"""

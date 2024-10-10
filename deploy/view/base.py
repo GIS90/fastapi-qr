@@ -62,7 +62,7 @@ base = APIRouter(prefix="", tags=["基础API：Path Query Body Form Cookie Heade
           description="Hello FastAPI-QR脚手架!",
           status_code=http_status.HTTP_200_OK
           )
-async def hi():
+async def hi() -> PlainTextResponse:
     """
     :return: PlainTextResponse
     """
@@ -83,7 +83,7 @@ Path
           summary="--必填--资源参数请求示例",
           description="必填资源参数请求"
           )
-async def path_base(rtx_id: str):
+async def path_base(rtx_id: str) -> dict:
     """
     必填资源参数请求示例
     :param rtx_id: [str]资源请求参数
@@ -104,7 +104,7 @@ async def path_base(rtx_id: str):
           )
 async def path_str(
         rtx_id: str = Path(..., description="[字符型]资源参数rtx_id", min_length=1, max_length=12)
-):
+) -> dict:
     """
     Path限制字符型资源参数请求示例
     :param rtx_id: [str]资源请求参数
@@ -125,7 +125,7 @@ async def path_str(
           )
 async def path_str_regex(
         rtx_id: str = Path(..., description="[字符型]资源参数rtx_id", min_length=1, max_length=12, regex="user")
-):
+) -> dict:
     """
     Path限制字符型资源参数请求示例
     :param rtx_id: [str]资源请求参数
@@ -146,7 +146,7 @@ async def path_str_regex(
           )
 async def path_int(
         rtx_id: int = Path(..., description="[整型]资源参数rtx_id", ge=1, le=10000)
-):
+) -> dict:
     """
     Path限制整型资源参数请求示例
     :param rtx_id: [int]资源请求参数
@@ -170,7 +170,7 @@ Query
           summary="--必填--查询参数请求示例",
           description="必填查询参数请求"
           )
-async def query_base(rtx_id: str):
+async def query_base(rtx_id: str) -> dict:
     """
     必填查询参数请求示例
     :param rtx_id: [str]查询请求参数
@@ -188,7 +188,7 @@ async def query_base(rtx_id: str):
           summary="==非必填==查询参数请求示例",
           description="使用typing.Optional定义参数，参数值可为空值，在参数传递过程中设置默认值，为空可设置None"
           )
-async def query_null(rtx_id: Optional[str] = None):
+async def query_null(rtx_id: Optional[str] = None) -> dict:
     """
     非必填查询参数请求示例
     :param rtx_id: [str]查询请求参数
@@ -209,7 +209,7 @@ async def query_null(rtx_id: Optional[str] = None):
           )
 async def query_q_str(
         rtx_id: str = Query(..., description="查询参数rtx_id", min_length=1, max_length=12)
-):
+) -> dict:
     """
     Query限制字符型查询参数请求示例
     :param rtx_id: [str]查询请求参数
@@ -230,7 +230,7 @@ async def query_q_str(
           )
 async def query_q_str_regex(
         rtx_id: str = Query(..., description="查询参数rtx_id", min_length=1, max_length=12, regex="user")
-):
+) -> dict:
     """
     Query限制字符型查询参数请求示例
     :param rtx_id: [str]查询请求参数
@@ -251,7 +251,7 @@ async def query_q_str_regex(
           )
 async def query_q_int(
         rtx_id: int = Query(..., description="查询参数rtx_id", ge=1, le=10000)
-):
+) -> dict:
     """
     Query限制整型查询参数请求示例
     :param rtx_id: [int]查询请求参数
@@ -283,7 +283,7 @@ Body
            )
 def body(
         user: User
-):
+) -> dict:
     """
     Pydantic模型请求体请求示例
     :param user: User Pydantic模型
@@ -308,7 +308,7 @@ def body_request_body(
         work_year: int = Query(..., description="查询参数work_year", ge=1, le=100),
         work_city: str = Query(..., description="资源参数work_city", min_length=1, max_length=12),
         user: Optional[User] = None
-):
+) -> dict:
     """
     :param rtx_id: [str]资源参数rtx_id
     :param work_year: [int]查询参数work_year
@@ -339,7 +339,7 @@ Form
 def form(
         username: str = Form(..., min_length=1, max_length=12, description="Form表单参数username"),
         password: str = Form(..., min_length=1, max_length=12, description="Form表单参数password")
-):
+) -> dict:
     """
     Cookie参数请求示例
     :param username: [str]Form表单参数username
@@ -366,7 +366,7 @@ Cookie
           )
 def cookie(
         cookie_id: Optional[str] = Cookie(None, description="Cookie参数")
-):
+) -> dict:
     """
     Cookie参数请求示例
     :param cookie_id: [str]Cookie请求参数
@@ -393,7 +393,7 @@ Header
 def header(
         user_agent: Optional[str] = Header(None, convert_underscores=True, description="User-Agent"),
         x_token: str = Header(..., min_length=1, max_length=25, convert_underscores=True, description="X-Token")
-):
+) -> dict:
     """
     Header参数请求示例
     有些HTTP代理和服务器是不允许在请求头中带有下划线的，Header提供convert_underscores属性进行设置
@@ -421,7 +421,7 @@ deprecated
           status_code=http_status.HTTP_200_OK,
           deprecated=True
           )
-async def deprecated():
+async def deprecated() -> dict:
     """
     :return: json
     """

@@ -51,7 +51,7 @@ api_service = ApiService()
           summary="[质量小程序APIs]过程检查",
           description="项目过程检查的详情数据"
           )
-async def zlxcx_process(params: ApiZlxcxProcessModel):
+async def zlxcx_process(params: ApiZlxcxProcessModel) -> dict:
     """
     质量小程序: 过程检查
     :return: json data
