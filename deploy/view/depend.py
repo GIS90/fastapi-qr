@@ -39,6 +39,7 @@ Life is short, I use python.
 # ------------------------------------------------------------
 from typing import List, Tuple, Dict, Set, Optional, Union
 from fastapi import APIRouter, Request, Depends
+from pydantic import Field
 
 from deploy.body.depend import BasePageBody
 from deploy.utils.status import Status
@@ -59,11 +60,11 @@ async def page_common_parameters(parameter: BasePageBody) -> dict:
     return parameter.model_dump()
 
 
-@depend.post('/depend',
+@depend.post('/function_depend',
              summary="[函数依赖]同步请求依赖注入",
              description="方法使用同步请求"
              )
-def async_depend(page: dict = Depends(page_common_parameters)) -> dict:
+def function_depend(page: dict = Depends(page_common_parameters)) -> dict:
     """
     :return: JSON
     """
@@ -71,15 +72,15 @@ def async_depend(page: dict = Depends(page_common_parameters)) -> dict:
         Status_code.CODE_100_SUCCESS,
         Status_enum.SUCCESS,
         Status_msg.get(100),
-        {**page, **{"type": "同步请求"}}
+        {**page, **{"request": "同步请求", "type": "function"}}
     ).status_body
 
 
-@depend.post('/async_depend',
+@depend.post('/function_async_depend',
              summary="[函数依赖]异步请求依赖注入",
              description="方法使用async异步请求"
              )
-async def async_depend(page: dict = Depends(page_common_parameters)) -> dict:
+async def function_async_depend(page: dict = Depends(page_common_parameters)) -> dict:
     """
     :return: JSON
     """
@@ -87,7 +88,7 @@ async def async_depend(page: dict = Depends(page_common_parameters)) -> dict:
         Status_code.CODE_100_SUCCESS,
         Status_enum.SUCCESS,
         Status_msg.get(100),
-        {**page, **{"type": "异步请求"}}
+        {**page, **{"request": "异步请求", "type": "function"}}
     ).status_body
 
 
@@ -95,3 +96,51 @@ async def async_depend(page: dict = Depends(page_common_parameters)) -> dict:
 """
 类依赖
 """
+class PageClass(object):
+    # default value
+    page = 1
+    limit = 100
+
+    def __init__(self, page: int, limit: int):
+        self.page = page
+        self.limit = limit
+
+
+@depend.post('/class_depend',
+             summary="[类依赖]同步请求依赖注入",
+             description="方法使用同步请求"
+             )
+def class_depend(page=Depends(PageClass)) -> dict:
+    """
+    :return: JSON
+    """
+    new_page = {
+        "page": page.page,
+        "limit": page.limit
+    }
+    return Status(
+        Status_code.CODE_100_SUCCESS,
+        Status_enum.SUCCESS,
+        Status_msg.get(100),
+        {**new_page, **{"request": "同步请求", "type": "class"}}
+    ).status_body
+
+
+@depend.post('/class_async_depend',
+             summary="[类依赖]异步请求依赖注入",
+             description="方法使用async异步请求"
+             )
+async def class_async_depend(page=Depends(PageClass)) -> dict:
+    """
+    :return: JSON
+    """
+    new_page = {
+        "page": page.page,
+        "limit": page.limit
+    }
+    return Status(
+        Status_code.CODE_100_SUCCESS,
+        Status_enum.SUCCESS,
+        Status_msg.get(100),
+        {**new_page, **{"request": "异步请求", "type": "class"}}
+    ).status_body
