@@ -204,7 +204,7 @@ class QRWebAppClass(WebBaseClass):
 
         # app webhook: exception_handler
         # -----------------------------------------------------------------------------------------------
-        # HTTPException
+        # HTTPException[HTTP异常]
         @self.app.exception_handler(HTTPException)
         async def http_exception_handler(request: Request, exec: HTTPException):
             """
@@ -228,7 +228,7 @@ class QRWebAppClass(WebBaseClass):
                 media_type=MediaType.APPJson.value
             )
 
-        # RequestValidationError
+        # RequestValidationError[请求验证错误]
         @self.app.exception_handler(RequestValidationError)
         async def request_validation_error(request: Request, exec: RequestValidationError):
             """
