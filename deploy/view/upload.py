@@ -43,9 +43,6 @@ Life is short, I use python.
 # ------------------------------------------------------------
 # usage: /usr/bin/python upload.py
 # ------------------------------------------------------------
-import os
-import json
-from datetime import datetime
 from fastapi import APIRouter, status as http_status, \
     File, UploadFile
 from typing import Optional, Union, List, Tuple, Dict
