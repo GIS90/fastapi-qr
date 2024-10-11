@@ -41,11 +41,12 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt, jws
 from pydantic import BaseModel
 
-from deploy.body.access import TokenBody as Token
+from deploy.body.access import TokenBody as Token, LoginBody
 from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.utils.utils import d2s
+from deploy.utils.exception import JwtCredentialsException
 
 
 # define view
@@ -56,6 +57,11 @@ TOKEN_ALGORITHM = "HS256"  # 算法
 TOKEN_EXPIRE_MINUTES = 1  # 访问令牌过期时间，单位：分
 TOKEN_DEFAULT_EXPIRE_MINUTES = 60 * 4  # 访问令牌过期时间[默认时间，如果不设置TOKEN_EXPIRE_MINUTES]，单位：分
 
+
+"""
+from表单：token
+请求体：token_request_body
+"""
 oauth2_schema = OAuth2PasswordBearer(tokenUrl="/access/token")
 
 credentials_exception = HTTPException(
@@ -67,8 +73,8 @@ credentials_exception = HTTPException(
 
 @access.post("/token",
              response_model=Token,
-             summary="用户Token API",
-             description="依据用户提供的username，password参数（KEY不可更改），获取用户登录Token"
+             summary="用户Token API[OAuth2PasswordRequestForm]",
+             description="依据用户[Form表单]提供的username，password参数（KEY不可更改），获取用户登录Token"
              )
 async def access_token(form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm)) -> dict:
     """
@@ -78,6 +84,42 @@ async def access_token(form_data: OAuth2PasswordRequestForm = Depends(OAuth2Pass
     """
     username = form_data.username
     password = form_data.password
+    if not username or not password:
+        return Status(
+            Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value,
+            Status_enum.FAILURE.value,
+            Status_msg.get(204),
+            {}
+        ).status_body
+
+    # TODO 用户信息核对
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # = = = = = = = = = = = = = = = = start token = = = = = = = = = = = = = = = =
+    access_token_expires = timedelta(minutes=TOKEN_EXPIRE_MINUTES or TOKEN_DEFAULT_EXPIRE_MINUTES)
+    token = create_access_token(
+        data={"rtx_id": username, "apply_time": datetime.utcnow()},
+        expires_delta=access_token_expires
+    )
+    # = = = = = = = = = = = = == = = = end token = = = = = == = = = = = = = = = =
+    return {"access_token": token, "token_type": "Bearer"}
+
+
+@access.post("/token_request_body",
+             response_model=Token,
+             summary="用户Token API[Request Body]",
+             description="依据用户[Request Body]提供的username，password参数（KEY不可更改），获取用户登录Token"
+             )
+async def access_token_request_body(form_data: LoginBody) -> dict:
+    """
+    用户Token API
+    :param form_data: Form表单对象
+    :return: dict
+    """
+    username = getattr(form_data, "name", None)
+    password = getattr(form_data, "password", None)
+    # 缺少登录参数
     if not username or not password:
         return Status(
             Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value,
@@ -170,18 +212,12 @@ async def verify_token_rtx(
     :param x_rtx_id: [str]用户X-Rtx-Id
     :return: [dict]Token data
     """
+
     try:
         claims = jwt.decode(token=token, key=TOKEN_SECRET_KEY, algorithms=[TOKEN_ALGORITHM])
         claims_rtx_id = claims.get("rtx_id")
-        if not x_rtx_id:
-            raise credentials_exception
-        if claims_rtx_id != x_rtx_id:
-            return Status(
-                Status_code.CODE_205_TOKEN_VERIFY_FAILURE,
-                Status_enum.FAILURE,
-                "The Header X-Rtx-Id Token is invalid",
-                {}
-            ).status_body
+        if not x_rtx_id or claims_rtx_id != x_rtx_id:
+            raise JwtCredentialsException("The X-Rtx-Id credentials token is invalid.")
     except JWTError:
         raise credentials_exception
 

@@ -65,6 +65,7 @@ from fastapi.encoders import jsonable_encoder
 from deploy.view import add_routers
 from deploy.utils.base_class import WebBaseClass
 from deploy.utils.status import Status
+from deploy.utils.exception import JwtCredentialsException
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.utils.enums import MediaType
@@ -244,6 +245,30 @@ class QRWebAppClass(WebBaseClass):
                 jsonable_encoder({"error": exec.errors()})   # jsonable_encoder({"error": exec.errors(), "body": exec.body})   # 返回请求体参数 + errors
             ).status_body
             headers = {"app-cm-exception-webhook": "RequestValidationError"}
+            headers.update(self.headers)
+            return JSONResponse(
+                content=content,
+                status_code=http_status.HTTP_200_OK,
+                headers=headers,
+                media_type=MediaType.APPJson.value
+            )
+
+        # JwtCredentialsException[Jwt Token验证异常]
+        @self.app.exception_handler(JwtCredentialsException)
+        async def http_exception_handler(request: Request, exec: JwtCredentialsException):
+            """
+            :param request: Request
+            :param exec: HTTPException
+            :return: JSONResponse
+            """
+            # rewrite response
+            content = Status(
+                Status_code.CODE_205_TOKEN_VERIFY_FAILURE.value,
+                Status_enum.FAILURE.value,
+                Status_msg.get(205),
+                {"error": exec.detail}
+            ).status_body
+            headers = {"app-cm-exception-webhook": "JwtCredentialsException"}
             headers.update(self.headers)
             return JSONResponse(
                 content=content,

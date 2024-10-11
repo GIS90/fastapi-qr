@@ -45,6 +45,12 @@ class WebBaseClass(object):
         super(WebBaseClass, self).__init__()
         self.init_run()
 
+    def __str__(self):
+        return "WebBaseClass Class."
+
+    def __repr__(self):
+        return self.__str__()
+
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             with WebBaseClass._instance_lock:

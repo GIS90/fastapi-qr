@@ -34,5 +34,18 @@ Life is short, I use python.
 # ------------------------------------------------------------
 
 
-__all__ = [""]
+__all__ = ["JwtCredentialsException"]
 
+
+class JwtCredentialsException(Exception):
+    """
+    jwt验证异常类
+    """
+    def __init__(self, detail):
+        self.detail = detail
+
+    def __str__(self):
+        return "JwtCredentialsException Class."
+
+    def __repr__(self):
+        return self.__str__()

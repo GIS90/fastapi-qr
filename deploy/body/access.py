@@ -34,6 +34,24 @@ Life is short, I use python.
 # usage: /usr/bin/python access.py
 # ------------------------------------------------------------
 from deploy.body._base import baseModel
+from pydantic import Field
+from typing import List, Tuple, Dict, Set, Optional, Union, Text
+
+
+class LoginBody(baseModel):
+    """
+    Token body
+    """
+    name: str = Field(..., min_length=1, max_length=35, description="用户名称")
+    password: str = Field(..., min_length=1, max_length=35, description="用户密码")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "name": "法外狂徒张三",
+                "password": "我是一个汉字的密码"
+            }
+        }
 
 
 class TokenBody(baseModel):
