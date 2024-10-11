@@ -24,6 +24,9 @@ https://github.com/GIS90/fastapi-qr/wiki
 ![Image](./deploy/static/api/05.png)  
 ![Image](./deploy/static/api/06.png)  
 ![Image](./deploy/static/api/07.png)  
+![Image](./deploy/static/api/08.png)  
+![Image](./deploy/static/api/09.png)  
+![Image](./deploy/static/api/10.png)  
 
 
 > ## 脚手架架构
