@@ -176,11 +176,12 @@ async def verify_token_rtx(
         if not x_rtx_id:
             raise credentials_exception
         if claims_rtx_id != x_rtx_id:
-            raise HTTPException(
-                http_status.HTTP_200_OK,
-                detail="The header x-rtx-id is not match Token",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
+            return Status(
+                Status_code.CODE_205_TOKEN_VERIFY_FAILURE,
+                Status_enum.FAILURE,
+                "The Header X-Rtx-Id Token is invalid",
+                {}
+            ).status_body
     except JWTError:
         raise credentials_exception
 
