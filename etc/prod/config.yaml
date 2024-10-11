@@ -41,6 +41,13 @@ MAIL:
   MAIL_PASSWORD: XXXXXX
 
 
+# jwt token
+JWT:
+  SECRET_KEY : "Enjoy the good life everyday！！!"
+  ALGORITHM: "HS256"
+  EXPIRE_MINUTES: 240
+
+
 # 其他配置
 OTHERS:
   NOBN: NoNameBody

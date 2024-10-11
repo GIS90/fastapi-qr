@@ -119,6 +119,12 @@ MAIL_USE_SSL = None
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
 
+# jwt token
+JWT_TOKEN_SECRET_KEY = "Enjoy the good life everyday！！!"  # 密钥
+JWT_TOKEN_ALGORITHM = "HS256"  # 算法
+JWT_TOKEN_EXPIRE_MINUTES = 60 * 4   # 访问令牌过期时间，单位：分
+
+
 # others
 NOBN = 'NoNameBody'
 
@@ -175,6 +181,11 @@ with open(_config_file, 'r', encoding='UTF-8') as f:
     MAIL_USE_SSL = _config_info['MAIL']['MAIL_USE_SSL'] or MAIL_USE_SSL
     MAIL_USERNAME = _config_info['MAIL']['MAIL_USERNAME'] or MAIL_USERNAME
     MAIL_PASSWORD = _config_info['MAIL']['MAIL_PASSWORD'] or MAIL_PASSWORD
+
+    # JWT
+    JWT_TOKEN_SECRET_KEY = _config_info['JWT']['SECRET_KEY'] or JWT_TOKEN_SECRET_KEY
+    JWT_TOKEN_ALGORITHM = _config_info['JWT']['ALGORITHM'] or JWT_TOKEN_ALGORITHM
+    JWT_TOKEN_EXPIRE_MINUTES = int(_config_info['JWT']['EXPIRE_MINUTES']) or JWT_TOKEN_EXPIRE_MINUTES
 
     # OTHERS
     O_NOBN = _config_info['OTHERS']['NOBN'] or NOBN

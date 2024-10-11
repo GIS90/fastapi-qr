@@ -47,22 +47,20 @@ from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.utils.utils import d2s
 from deploy.utils.exception import JwtCredentialsException
+from deploy.config import JWT_TOKEN_SECRET_KEY, JWT_TOKEN_ALGORITHM, JWT_TOKEN_EXPIRE_MINUTES
 
 
 # define view
 access = APIRouter(prefix="/access", tags=["系统登陆与登出，使用JWT验证"])
 
-TOKEN_SECRET_KEY = "Enjoy the good life everyday！！!"  # 密钥
-TOKEN_ALGORITHM = "HS256"  # 算法
-TOKEN_EXPIRE_MINUTES = 1  # 访问令牌过期时间，单位：分
-TOKEN_DEFAULT_EXPIRE_MINUTES = 60 * 4  # 访问令牌过期时间[默认时间，如果不设置TOKEN_EXPIRE_MINUTES]，单位：分
+TOKEN_DEFAULT_EXPIRE_MINUTES = 60 * 4  # 访问令牌过期时间，单位：分
 
 
 """
 from表单：token
 请求体：token_request_body
 """
-oauth2_schema = OAuth2PasswordBearer(tokenUrl="/access/token")
+oauth2_schema = OAuth2PasswordBearer(tokenUrl="/access/token_request_body")
 
 credentials_exception = HTTPException(
     http_status.HTTP_401_UNAUTHORIZED,
@@ -82,8 +80,8 @@ async def access_token(form_data: OAuth2PasswordRequestForm = Depends(OAuth2Pass
     :param form_data: Form表单对象
     :return: dict
     """
-    username = form_data.username
-    password = form_data.password
+    username = getattr(form_data, "username", None)
+    password = getattr(form_data, "password", None)
     if not username or not password:
         return Status(
             Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value,
@@ -97,7 +95,7 @@ async def access_token(form_data: OAuth2PasswordRequestForm = Depends(OAuth2Pass
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # = = = = = = = = = = = = = = = = start token = = = = = = = = = = = = = = = =
-    access_token_expires = timedelta(minutes=TOKEN_EXPIRE_MINUTES or TOKEN_DEFAULT_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=JWT_TOKEN_EXPIRE_MINUTES or TOKEN_DEFAULT_EXPIRE_MINUTES)
     token = create_access_token(
         data={"rtx_id": username, "apply_time": datetime.utcnow()},
         expires_delta=access_token_expires
@@ -117,7 +115,7 @@ async def access_token_request_body(form_data: LoginBody) -> dict:
     :param form_data: Form表单对象
     :return: dict
     """
-    username = getattr(form_data, "name", None)
+    username = getattr(form_data, "username", None)
     password = getattr(form_data, "password", None)
     # 缺少登录参数
     if not username or not password:
@@ -133,7 +131,7 @@ async def access_token_request_body(form_data: LoginBody) -> dict:
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # = = = = = = = = = = = = = = = = start token = = = = = = = = = = = = = = = =
-    access_token_expires = timedelta(minutes=TOKEN_EXPIRE_MINUTES or TOKEN_DEFAULT_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=JWT_TOKEN_EXPIRE_MINUTES or TOKEN_DEFAULT_EXPIRE_MINUTES)
     token = create_access_token(
         data={"rtx_id": username, "apply_time": datetime.utcnow()},
         expires_delta=access_token_expires
@@ -160,7 +158,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
         else token_apply_time + timedelta(minutes=TOKEN_DEFAULT_EXPIRE_MINUTES)  # 如果没有配置默认登录时长，默认4h
     to_encode_data['expire_time'] = d2s(expire, fmt="%Y-%m-%d %H:%M:%S")
     to_encode_data.update({"exp": expire})  # jwt过期时间KEY：['exp', 'iat', 'nbf']
-    encoded_jwt = jwt.encode(claims=to_encode_data, key=TOKEN_SECRET_KEY, algorithm=TOKEN_ALGORITHM)
+    encoded_jwt = jwt.encode(claims=to_encode_data, key=JWT_TOKEN_SECRET_KEY, algorithm=JWT_TOKEN_ALGORITHM)
     """jwt.encode
     参数解析：
         claims (dict): 存储Token数据
@@ -183,7 +181,7 @@ async def decode_token_rtx(
     :return: [dict]Token data
     """
     try:
-        claims = jwt.decode(token=token, key=TOKEN_SECRET_KEY, algorithms=[TOKEN_ALGORITHM])
+        claims = jwt.decode(token=token, key=JWT_TOKEN_SECRET_KEY, algorithms=[JWT_TOKEN_ALGORITHM])
         """jwt.decode
         参数解析：
             token (str): Token字符串
@@ -214,7 +212,7 @@ async def verify_token_rtx(
     """
 
     try:
-        claims = jwt.decode(token=token, key=TOKEN_SECRET_KEY, algorithms=[TOKEN_ALGORITHM])
+        claims = jwt.decode(token=token, key=JWT_TOKEN_SECRET_KEY, algorithms=[JWT_TOKEN_ALGORITHM])
         claims_rtx_id = claims.get("rtx_id")
         if not x_rtx_id or claims_rtx_id != x_rtx_id:
             raise JwtCredentialsException("The X-Rtx-Id credentials token is invalid.")
