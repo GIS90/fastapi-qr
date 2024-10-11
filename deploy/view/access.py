@@ -54,7 +54,7 @@ access = APIRouter(prefix="/access", tags=["系统登陆与登出，使用JWT验
 TOKEN_SECRET_KEY = "Enjoy the good life everyday！！!"  # 密钥
 TOKEN_ALGORITHM = "HS256"  # 算法
 TOKEN_EXPIRE_MINUTES = 1  # 访问令牌过期时间，单位：分
-TOKEN_DEFAULT_EXPIRE_MINUTES = 60 * 4  # 访问令牌过期时间，单位：分
+TOKEN_DEFAULT_EXPIRE_MINUTES = 60 * 4  # 访问令牌过期时间[默认时间，如果不设置TOKEN_EXPIRE_MINUTES]，单位：分
 
 oauth2_schema = OAuth2PasswordBearer(tokenUrl="/access/token")
 
@@ -188,9 +188,12 @@ async def verify_token_rtx(
     return claims_rtx_id
 
 
+description = """主要用于API的rtx-id获取，
+直接重token解码获取，避免资源参数、查询参数、请求体参数、Header参数等传入的rtx-id不准，
+也有verify_token_rtx方法，验证当前Token登录对象rtx-id与Header的rtx-id是否一致"""
 @access.get("/token/me",
             summary="获取当前Token登录对象rtx-id",
-            description="主要用于API的rtx-id获取，直接重token解码获取，避免资源参数、查询参数、请求体参数、Header参数等传入的rtx-id不准，也有verify_token_rtx方法，验证当前Token登录对象rtx-id与Header的rtx-id是否一致"
+            description=description
             )
 async def jwt_token_me(
         token_user_rtx: str = Depends(decode_token_rtx)
@@ -204,7 +207,7 @@ async def jwt_token_me(
         Status_code.CODE_100_SUCCESS.value,
         Status_enum.SUCCESS.value,
         Status_msg.get(100),
-        {'rtx_id': token_user_rtx}
+        {'decode_rtx_id': token_user_rtx}
     ).status_body
 
 
@@ -223,7 +226,7 @@ async def jwt_token_verify_me(
         Status_code.CODE_100_SUCCESS.value,
         Status_enum.SUCCESS.value,
         Status_msg.get(100),
-        {'rtx_id': token_user_rtx}
+        {'verify_rtx_id': token_user_rtx}
     ).status_body
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *
