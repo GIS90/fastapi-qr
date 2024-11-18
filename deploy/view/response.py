@@ -79,7 +79,6 @@ from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.reqbody.response import UserIn, UserOut
 
-
 # define view
 response = APIRouter(prefix="/response", tags=["Response对象类返回测试示例"])
 
@@ -183,6 +182,37 @@ async def response_model(user: UserIn):
     """
     return user
 
+
+data = {
+    "d1": {"username": "法外狂徒张一", "password": "123456", "email": "gaoming@example.com", "phone": "123456789000", "full_name": "法外狂徒张三"},
+    "d2": {"username": "法外狂徒张二", "password": "123456", "email": "gaoming@example.com", "phone": "123456789000", "full_name": "法外狂徒张三"},
+    "d3": {"username": "法外狂徒张三", "password": "123456", "email": "gaoming@example.com", "phone": "123456789000", "full_name": "法外狂徒张三"},
+    "d4": {"username": "法外狂徒张四", "password": "123456", "email": "gaoming@example.com", "phone": "123456789000", "full_name": "法外狂徒张三"},
+}
+
+
+@response.post("/response-model-include/{data_id}",
+               response_model=UserIn,
+               response_model_include={'username', 'password'},
+               summary="[Response返回参数]response_model_include返回数据字段操作测试用例",
+               description="response_model_include指定return json需要返回的字段列表，采用字典包含字段格式，例如：{'username', 'password'}")
+async def response_model_include(data_id: str):
+    """
+    :return: JSON
+    """
+    return data.get(data_id)
+
+
+@response.post("/response-model-exclude/{data_id}",
+               response_model=UserIn,
+               response_model_exclude={'password', 'email'},
+               summary="[Response返回参数]response_model_exclude返回数据字段操作测试用例",
+               description="response-model-exclude指定return json需要过滤的字段列表，采用字典包含字段格式，例如：{'password', 'email'}")
+async def response_model_exclude(data_id: str):
+    """
+    :return: JSON
+    """
+    return data.get(data_id)
 
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *

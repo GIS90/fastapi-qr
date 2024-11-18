@@ -41,6 +41,7 @@ class UserIn(baseModel):
     username: str
     password: str
     email: EmailStr
+    phone: Optional[str]
     full_name: Union[str, None] = None
 
     class Config:
@@ -49,6 +50,7 @@ class UserIn(baseModel):
                 "username": "法外狂徒张三",
                 "password": "123456",
                 "email": "gaoming@example.com",
+                "phone": "123456789000",
                 "full_name": "法外狂徒张三"
             }
         }
@@ -57,6 +59,7 @@ class UserIn(baseModel):
 class UserOut(baseModel):
     username: str
     email: EmailStr
+    phone: Optional[str]
     full_name: Union[str, None] = None
 
     class Config:
@@ -64,6 +67,7 @@ class UserOut(baseModel):
             "example": {
                 "username": "法外狂徒张三",
                 "email": "gaoming@example.com",
+                "phone": "123456789000",
                 "full_name": "法外狂徒张三"
             }
         }
