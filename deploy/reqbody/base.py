@@ -47,6 +47,15 @@ class Address(baseModel):
     city: str = Field(..., min_length=1, max_length=120, description="省份")
     address: Optional[Text] = Field(default=None, min_length=0, max_length=120, description="详情地址")
 
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "province": "内蒙古",
+                "city": "兴安盟",
+                "address": "阿尔山温泉街道安居小区"
+            }
+        }
+
 
 class BaseUserBody(baseModel):
     """
@@ -67,7 +76,7 @@ class BaseUserBody(baseModel):
                 "addr": {
                     "province": "内蒙古",
                     "city": "兴安盟",
-                    "address": "阿尔山温泉街道安居小区",
+                    "address": "阿尔山温泉街道安居小区"
                 }
             }
         }
