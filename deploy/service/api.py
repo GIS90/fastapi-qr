@@ -88,6 +88,11 @@ class ApiService(object):
         质量小程序: 过程检查
         :return: json data
         """
+        return {
+            "Hello": "World"
+        }
+
+        # 禁用
         # ====================== parameters check ======================
         if not params:
             return Status(
