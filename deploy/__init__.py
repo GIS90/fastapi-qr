@@ -61,6 +61,7 @@ from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi.encoders import jsonable_encoder
+from starlette.staticfiles import StaticFiles
 
 from deploy.view import add_routers
 from deploy.utils.base_class import WebBaseClass
@@ -105,6 +106,9 @@ class QRWebAppClass(WebBaseClass):
         self.app.docs_url = "/docs"
         self.app.redoc_url = "/redocs"
         self.app.debug = SERVER_DEBUG
+
+        # 静态资源
+        self.app.mount("/static", StaticFiles(directory="deploy/static"), name="static")
         # ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ -
 
         # app mount[挂载子应用SubAPP]
