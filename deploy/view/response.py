@@ -77,6 +77,7 @@ from deploy.utils.enums import MediaType
 from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
+from deploy.reqbody.response import UserIn, UserOut
 
 
 # define view
@@ -85,8 +86,9 @@ response = APIRouter(prefix="/response", tags=["Response对象类返回测试示
 headers = {"Hello": "World"}
 
 
+# - - - - - - - - - - - - - - - - - - - - - - - - [Response返回类] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @response.get("/response",
-              summary="Response对象测试用例",
+              summary="[Response返回类]Response对象测试用例",
               description="Response对象为基类，包含：content: typing.Any内容；status_code: int状态码，默认200；headers: Optional[typing.Mapping[str, str]]Header；media_type: Optional[str]媒体类型；background: Optional[BackgroundTask]后台任务")
 async def base_response() -> Response:
     """
@@ -108,7 +110,7 @@ async def base_response() -> Response:
 
 
 @response.get("/plaintext-response",
-              summary="PlainTextResponse对象测试用例",
+              summary="[Response返回类]PlainTextResponse对象测试用例",
               description="继承Response，media_type = text/plain，content直接展示字符串格式")
 async def plaintext_response() -> PlainTextResponse:
     """
@@ -128,7 +130,7 @@ async def plaintext_response() -> PlainTextResponse:
 
 
 @response.get("/html-response",
-              summary="HTMLResponse对象测试用例",
+              summary="[Response返回类]HTMLResponse对象测试用例",
               description="继承Response，media_type = text/html，content为HTML代码，直接编写HTML、CSS样式")
 async def html_response() -> HTMLResponse:
     """
@@ -148,7 +150,7 @@ async def html_response() -> HTMLResponse:
 
 
 @response.get("/json-response",
-              summary="JSONResponse对象测试用例",
+              summary="[Response返回类]JSONResponse对象测试用例",
               description="继承Response，media_type = application/json，content为json数据")
 async def json_response() -> JSONResponse:
     """
@@ -168,5 +170,19 @@ async def json_response() -> JSONResponse:
         headers=headers,
         media_type=MediaType.APPJson.value
     )
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - [Response返回参数]- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+@response.post("/response-model",
+               response_model=UserOut,
+               summary="[Response返回参数]response-model类测试用例",
+               description="用指定的response-model来返回JSON值，通过response-model来优化不需要显示的字段")
+async def response_model(user: UserIn):
+    """
+    :return: JSON
+    """
+    return user
+
+
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *
