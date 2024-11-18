@@ -38,7 +38,7 @@ from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 
-from deploy.body.api import ApiZlxcxProcessModel
+from deploy.reqbody.api import ApiZlxcxProcessModel
 from deploy.service.api import ApiService
 
 

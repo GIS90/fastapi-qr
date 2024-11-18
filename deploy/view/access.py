@@ -41,7 +41,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt, jws
 from pydantic import BaseModel
 
-from deploy.body.access import TokenBody as Token, LoginBody
+from deploy.reqbody.access import TokenBody as Token, LoginBody
 from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code

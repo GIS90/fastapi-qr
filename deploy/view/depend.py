@@ -42,7 +42,7 @@ from fastapi import APIRouter, Request, Depends, Header, status as http_status
 from fastapi.exceptions import HTTPException
 from pydantic import Field
 
-from deploy.body.depend import BasePageBody
+from deploy.reqbody.depend import BasePageBody
 from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code

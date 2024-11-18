@@ -39,7 +39,7 @@ from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.view.access import decode_token_rtx, verify_token_rtx
-from deploy.body.base import UserBody
+from deploy.reqbody.base import UserBody
 
 
 # define view

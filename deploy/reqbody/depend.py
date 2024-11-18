@@ -33,7 +33,7 @@ Life is short, I use python.
 # ------------------------------------------------------------
 # usage: /usr/bin/python depend.py
 # ------------------------------------------------------------
-from deploy.body._base import baseModel
+from deploy.reqbody._base import baseModel
 from pydantic import Field
 from typing import List, Tuple, Dict, Set, Optional, Union, Text
 

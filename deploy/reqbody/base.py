@@ -33,7 +33,7 @@ Life is short, I use python.
 # ------------------------------------------------------------
 # usage: /usr/bin/python base.py
 # ------------------------------------------------------------
-from deploy.body._base import baseModel
+from deploy.reqbody._base import baseModel
 from pydantic import Field, validator, field_validator
 from typing import List, Tuple, Dict, Set, Optional, Union, Text
 

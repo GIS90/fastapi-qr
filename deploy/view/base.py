@@ -47,7 +47,7 @@ from fastapi.responses import Response, \
     PlainTextResponse, JSONResponse, HTMLResponse, \
     StreamingResponse, FileResponse
 
-from deploy.body.base import UserBody as User
+from deploy.reqbody.base import UserBody as User
 from deploy.utils.status import Status
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
