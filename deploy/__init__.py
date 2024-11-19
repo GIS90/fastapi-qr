@@ -119,8 +119,8 @@ class QRWebAppClass(WebBaseClass):
         # app middleware
         # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
         # 自定义中间件C-Middleware:
-        #   HOST白名单 + URL禁用路径
-        #   watcher时间
+        #   >> HOST白名单 + URL禁用路径
+        #   >> watcher时间
         @self.app.middleware("http")
         async def cmAccess(request: Request, call_next):
             LOG.debug(">>>>> App middleware C-Middleware request")
