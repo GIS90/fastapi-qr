@@ -17,16 +17,16 @@ https://github.com/GIS90/fastapi-qr/wiki
 ```
 线上地址：http://api.pygo2.top/  
 ```
-![Image](./deploy/static/api/01.png)  
-![Image](./deploy/static/api/02.png)  
-![Image](./deploy/static/api/03.png)  
-![Image](./deploy/static/api/04.png)  
-![Image](./deploy/static/api/05.png)  
-![Image](./deploy/static/api/06.png)  
-![Image](./deploy/static/api/07.png)  
-![Image](./deploy/static/api/08.png)  
-![Image](./deploy/static/api/09.png)  
-![Image](./deploy/static/api/10.png)  
+![Image](deploy/static/image/01.png)  
+![Image](deploy/static/image/02.png)  
+![Image](deploy/static/image/03.png)  
+![Image](deploy/static/image/04.png)  
+![Image](deploy/static/image/05.png)  
+![Image](deploy/static/image/06.png)  
+![Image](deploy/static/image/07.png)  
+![Image](deploy/static/image/08.png)  
+![Image](deploy/static/image/09.png)  
+![Image](deploy/static/image/10.png)  
 
 
 > ## 脚手架架构
