@@ -118,9 +118,11 @@ class QRWebAppClass(WebBaseClass):
 
         # app middleware
         # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-        # 自定义中间件C-Middleware
+        # 自定义中间件C-Middleware:
+        #   HOST白名单 + URL禁用路径
+        #   watcher时间
         @self.app.middleware("http")
-        async def cm(request: Request, call_next):
+        async def cmAccess(request: Request, call_next):
             LOG.debug(">>>>> App middleware C-Middleware request")
             # - - - - - - - - - - - - - - - - 请求代码块 - - - - - - - - - - - - - - - -
             # [** 访问IP检查 **]
@@ -161,7 +163,7 @@ class QRWebAppClass(WebBaseClass):
 
             LOG.debug(">>>>> App middleware C-Middleware response")
             # + + + + + + + + + + + + + + + + 响应代码块 + + + + + + + + + + + + + + + +
-            # [API执行时间]
+            # [API Watcher执行时间]
             start = time.time()
             response = await call_next(request)
             end = time.time()
