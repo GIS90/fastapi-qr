@@ -79,6 +79,7 @@ from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.reqbody.response import UserIn, UserOut
 
+
 # define view
 response = APIRouter(prefix="/response", tags=["Response对象类返回测试示例"])
 
