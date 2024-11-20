@@ -77,7 +77,12 @@ from deploy.config import APP_SECRET_KEY, APP_ALLOW_HOSTS, APP_CORS_ORIGINS, APP
 
 
 # FastAPI App instance
-app = FastAPI()
+app = FastAPI(
+    # Docs配置（str类型，设置None为禁用状态）
+    openapi_url="/documentation/api/v1/openapi.json",
+    docs_url="/documentation/api/v1/docs",
+    redoc_url=None
+)
 
 
 class QRWebAppClass(WebBaseClass):
@@ -97,15 +102,21 @@ class QRWebAppClass(WebBaseClass):
             LOG.info('Web app server initialize is failure......')
             sys.exit(1)
 
-        # app base config
+        # APP object configuration
         # ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ - ~ -
+        # 基础信息
         self.app.title = SERVER_NAME
         self.app.summary = "作者：高明亮"
-        self.app.description = "基于FastAPI搭建的后端APIs，达到快速开发、上线的一款后台API脚手架项目。如果觉得还可以，欢迎点一个🌟支持一下，Thanks。"
+        self.app.description = "基于FastAPI搭建的后端APIs，达到快速开发、上线的一款后台API脚手架项目。如果觉得还可以，欢迎点一个🌟支持一下，Thanks。"     # 支持Markdown语法
         self.app.version = SERVER_VERSION
-        self.app.docs_url = "/docs"
-        self.app.redoc_url = "/redocs"
+        # 开发配置
         self.app.debug = SERVER_DEBUG
+        # 联系信息
+        self.app.contact = {
+            "name": "Pygo2",
+            "url": "http://www.pygo2.top",
+            "email": "gaoming971366@163.com"
+        }
 
         # 静态资源
         self.app.mount("/static", StaticFiles(directory="deploy/static"), name="static")
@@ -176,9 +187,9 @@ class QRWebAppClass(WebBaseClass):
         self.app.add_middleware(
             CORSMiddleware,
             allow_origins=APP_CORS_ORIGINS or ["*"],  # 全部：["*"]
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"]
+            allow_credentials=True,     # 认证
+            allow_methods=["*"],        # 方法
+            allow_headers=["*"]         # Headers信息
         )
 
         # 中间件 > SESSION会话管理

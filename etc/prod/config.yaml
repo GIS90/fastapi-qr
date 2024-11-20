@@ -1,6 +1,6 @@
 # 基础版本信息配置
 SERVER:
-  NAME: "Quick-Run API"
+  NAME: "FastAPI-Quick-Run API使用说明手册"
   VERSION: v1.0.1
   DEBUG: False
   ADMIN: admin

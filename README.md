@@ -15,7 +15,7 @@ https://github.com/GIS90/fastapi-qr/wiki
 ### 线上地址
 
 ```
-线上地址：http://api.pygo2.top/  
+线上地址：http://api.pygo2.top/documentation/api/v1/docs
 ```
 ![Image](deploy/static/image/01.png)  
 ![Image](deploy/static/image/02.png)  
@@ -96,9 +96,9 @@ supervisor: 项目进程管理的配置信息，单独一个，部署到线上
 #### 本机
 1.项目根目录app.py文件，开启server.run()  
 2.安装好项目运行环境，***source .venv/bin/activate***启动项目运行python
-3.执行sudo python app.py，代码目前已写入，处于注释状态  
+3.执行sudo python app.py  
 4.通过手动启动的项目为dev开发环境配置，可在deploy/config.py中进行默认调整（mode = os.environ.get('mode') or 'dev'）  
-5.如果手动启动模式开启，在gunicorn进行启动，会error: [Errno 48] Address already in use.
+5.命令行启动：uvicorn app:app --reload --port 54321 --host 0.0.0.0
 
 注意：启动项目一定要用virtualenv安装的python环境进行启动（source .venv/bin/activate）
 
@@ -182,12 +182,10 @@ mysqldump
 ### supervisor
 
 管理项目进程的启动、停止、重启等操作
-安装：pip install supervisor
-配置：
-  - dev：etc/dev/supervisor_open2lisapi.conf
-  - prod：etc/prod/supervisor_open2lisapi.conf
+安装：pip install supervisor  
+配置：etc/dev/supervisor_fastapi-qr.conf
 
-把指定环境的supervisor_open2lisapi.conf cp到/etc/supervisord.d/include/*下。  
+把指定环境的supervisor_fastapi-qr.conf cp到/etc/supervisord.d/include/*下。  
 项目root根目录下有supervisord.conf文件，用来配置supervisord，放在/etc/supervisord.d目录下。
 
 ### uvicorn

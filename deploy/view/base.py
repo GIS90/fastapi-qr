@@ -62,12 +62,19 @@ base = APIRouter(prefix="", tags=["基础API：Path Query Body Form Cookie Heade
           description="Hello FastAPI-QR脚手架!",
           status_code=http_status.HTTP_200_OK
           )
-async def hi() -> PlainTextResponse:
+async def hi() -> HTMLResponse:
     """
-    :return: PlainTextResponse
+    :return: HTMLResponse
     """
-    return PlainTextResponse(
-        content="欢迎访问FastAPI-qr脚手架，请多API说明请参考：/docs",
+    return HTMLResponse(
+        content='''
+            <h1 style="color:red">欢迎访问FastAPI-qr脚手架🚀🚀🚀🚀🚀🚀</h1>
+            <hr>
+            <h2>更多API接口说明请联系管理员：高明亮</h2>
+            <hr>
+            <h2 style="font-style: italic;">Enjoy the good life everyday！！!</h2>
+            <h2 style="font-style: italic;">Life is short, I use python.</h2>
+        ''',
         status_code=http_status.HTTP_200_OK,
         headers={'X-Token': "I'm is test token............................................"}
     )
