@@ -196,7 +196,7 @@ data = {
                response_model=UserIn,
                response_model_include={'username', 'password'},
                summary="[Response返回参数]response_model_include返回数据字段操作测试用例",
-               description="response_model_include指定return json需要返回的字段列表，采用字典包含字段格式，例如：{'username', 'password'}")
+               description="response_model_include指定return json需要返回的字段列表，采用字典包含字段格式，例如：{'username', 'password'}，data_id数据包含：d1，d2，d3，d4。")
 async def response_model_include(data_id: str):
     """
     :return: JSON
@@ -208,7 +208,7 @@ async def response_model_include(data_id: str):
                response_model=UserIn,
                response_model_exclude={'password', 'email'},
                summary="[Response返回参数]response_model_exclude返回数据字段操作测试用例",
-               description="response-model-exclude指定return json需要过滤的字段列表，采用字典包含字段格式，例如：{'password', 'email'}")
+               description="response-model-exclude指定return json需要过滤的字段列表，采用字典包含字段格式，例如：{'password', 'email'}，data_id数据包含：d1，d2，d3，d4。")
 async def response_model_exclude(data_id: str):
     """
     :return: JSON
