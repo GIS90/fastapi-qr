@@ -102,6 +102,10 @@ APP_BAN_ROUTERS = ['/ban1', '/ban2']
 APP_M_GZIP_SIZE = 1000
 APP_M_GZIP_LEVEL = 9
 APP_M_ALLOW_HOSTS = []  # TrustedHostMiddleware，支持ip、domain
+# Docs文档配置
+APP_OPENAPI_URL = "/openapi.json"
+APP_DOCS_URL = "/docs"
+APP_REDOC_URL = "/redoc"
 
 # DB(sqlalchemy)，default is mysql
 DB_LINK = None
@@ -159,6 +163,9 @@ with open(_config_file, 'r', encoding='UTF-8') as f:
     APP_M_GZIP_SIZE = _config_info['APP']['M_GZIP_SIZE'] or APP_M_GZIP_SIZE
     APP_M_GZIP_LEVEL = _config_info['APP']['M_GZIP_LEVEL'] or APP_M_GZIP_LEVEL
     APP_M_ALLOW_HOSTS = _config_info['APP']['M_ALLOW_HOSTS'] or APP_M_ALLOW_HOSTS
+    APP_OPENAPI_URL = _config_info['APP']['OPENAPI_URL'] or APP_OPENAPI_URL
+    APP_DOCS_URL = _config_info['APP']['DOCS_URL'] or APP_DOCS_URL
+    APP_REDOC_URL = _config_info['APP']['REDOC_URL'] or APP_REDOC_URL
 
     # DB(sqlalchemy)，default is mysql
     DB_LINK = _config_info['DB']['DB_LINK'] or DB_LINK

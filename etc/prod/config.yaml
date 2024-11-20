@@ -17,6 +17,10 @@ APP:
   M_GZIP_SIZE: 1000
   M_GZIP_LEVEL: 9
   M_ALLOW_HOSTS: []  # TrustedHostMiddleware，支持ip、domain
+  # docs配置
+  OPENAPI_URL: "/documentation/api/v1/openapi.json"
+  DOCS_URL: "/documentation/api/v1/docs"
+  REDOC_URL: "/documentation/api/v1/redoc"
 
 
 # 日志

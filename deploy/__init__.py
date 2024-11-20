@@ -73,15 +73,16 @@ from deploy.utils.enums import MediaType
 from deploy.utils.logger import logger as LOG
 from deploy.config import APP_SECRET_KEY, APP_ALLOW_HOSTS, APP_CORS_ORIGINS, APP_M_ALLOW_HOSTS, \
     APP_M_GZIP_SIZE, APP_M_GZIP_LEVEL, APP_BAN_ROUTERS, APP_SESSION_MAX_AGE, \
-    SERVER_NAME, SERVER_VERSION, SERVER_DEBUG
+    SERVER_NAME, SERVER_VERSION, SERVER_DEBUG, \
+    APP_OPENAPI_URL, APP_DOCS_URL, APP_REDOC_URL
 
 
 # FastAPI App instance
 app = FastAPI(
     # Docs配置（str类型，设置None为禁用状态）
-    openapi_url="/documentation/api/v1/openapi.json",
-    docs_url="/documentation/api/v1/docs",
-    redoc_url=None
+    openapi_url=APP_OPENAPI_URL,
+    docs_url=APP_DOCS_URL,
+    redoc_url=None  # 禁用redoc_url
 )
 
 
