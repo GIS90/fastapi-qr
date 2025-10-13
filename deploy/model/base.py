@@ -1,0 +1,91 @@
+# -*- coding: utf-8 -*-
+
+"""
+------------------------------------------------
+
+describe: 
+    the class of base model
+    db connection session
+
+base_info:
+    __author__ = "PyGo"
+    __time__ = "2023/11/28 20:52"
+    __version__ = "v.1.0.0"
+    __mail__ = "gaoming971366@163.com"
+    __blog__ = "www.pygo2.top"
+    __project__ = "fastapi-qr"
+
+usage:
+
+design:
+
+reference urls:
+
+python version:
+    python3
+
+
+Enjoy the good life everyday！！!
+Life is short, I use python.
+
+错误：
+1、sqlalchemy.exc.ArgumentError: autocommit=True is no longer supported
+这个错误表明你正在使用SQLAlchemy时尝试设置autocommit=True，但这种做法在新版本的SQLAlchemy中已不再支持。SQLAlchemy 1.4版本开始，默认的会话行为不再自动提交，而是需要显式地提交更改。
+------------------------------------------------
+"""
+
+# ------------------------------------------------------------
+# usage: /usr/bin/python base.py
+# ------------------------------------------------------------
+import sys
+
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+from deploy.config import DB_LINK
+from deploy.utils.logger import logger as LOG
+
+DBSession = None
+
+
+if not DB_LINK:
+    LOG.critical('DB configuration is unavail')
+    sys.exit(1)
+
+db_link = DB_LINK
+
+ModelBase = declarative_base()
+
+
+def init_database_engine():
+    return create_engine(
+        db_link,
+        echo=False,     # True or False, SQLALCHEMY_ECHO: If set to True SQLAlchemy will log all the statements issued to stderr which can be useful for debugging.
+        pool_recycle=800,
+        pool_size=100
+    )
+
+
+def get_session():
+    # 方式一：全局一个sessionmaker对象
+    global DBSession
+    if not DBSession:
+        db_engine = init_database_engine()
+        DBSession = sessionmaker(bind=db_engine,
+                                 autoflush=True
+                                 )
+
+    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+    # 方式二: 每次都创建sessionmaker对象
+    """
+    db_engine = init_database_engine()
+    DBSession = sessionmaker(bind=db_engine,
+                             autoflush=True
+                             )
+    """
+
+    return DBSession()
+

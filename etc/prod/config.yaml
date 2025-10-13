@@ -1,0 +1,70 @@
+# 基础版本信息配置
+SERVER:
+  NAME: "FastAPI-Quick-Run APIs使用说明手册"
+  VERSION: v1.1.3
+  DEBUG: False
+  ADMIN: admin
+  ADMIN_AUTH_LIST: ['test1234']   # 用户RTX-ID
+
+
+# APP配置
+APP:
+  # 中间件
+  SECRET_KEY: "IbelivemeIcanfly-gaomingliang"
+  ALLOW_HOSTS: []  # IP列表 ["127.0.0.1"]
+  CORS_ORIGINS: ["*"]
+  SESSION_MAX_AGE: 15 * 24 * 60 * 60  # unit: minute, default 15 days
+  BAN_ROUTERS: ['/ban1', '/ban2']
+  M_GZIP_SIZE: 1000
+  M_GZIP_LEVEL: 9
+  M_ALLOW_HOSTS: []  # TrustedHostMiddleware，支持ip、domain
+  REQUEST_METHODS: ["GET", "POST", "PUT", "DELETE"] # 允许通过的请求方法列表
+  # docs配置
+  OPENAPI_URL: "/documentation/api/v1/openapi.json"
+  DOCS_URL: "/documentation/api/v1/docs"
+  REDOC_URL: "/documentation/api/v1/redoc"
+  # 静态资源
+  STATIC_URL: "/static"
+  STATIC_DIR: "static"
+
+
+# 日志
+LOG:
+  LOG_DIR: log
+  LOG_LEVEL: debug
+  LOG_FORMATTER: '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s - %(message)s'
+  LOG_FILENAME_PREFIX: fastapi-qr
+
+
+# 数据库
+DB:
+  DB_LINK: mysql+pymysql://twtoolbox:2dcc0521bd32dc5100c6d65a1effa8e6@110.40.141.32:3306/twtoolbox?charset=utf8
+
+
+# Redis
+REDIS:
+  HOST: 110.40.141.32
+  PORT: 9777
+  DB: 10
+  PASSWORD:
+
+
+# email
+MAIL:
+  MAIL_SERVER: smtp.163.com
+  MAIL_PORT: 25
+  MAIL_USE_SSL: True
+  MAIL_USERNAME: XXXXXX@163.com
+  MAIL_PASSWORD: XXXXXX
+
+
+# jwt token
+JWT:
+  SECRET_KEY : "Enjoy the good life everyday！！!"
+  ALGORITHM: "HS256"
+  EXPIRE_MINUTES: 240
+
+
+# 其他配置
+OTHERS:
+  NON: NoNameBody
