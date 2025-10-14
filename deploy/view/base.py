@@ -76,7 +76,7 @@ async def hi() -> HTMLResponse:
             <h2 style="font-style: italic;color:blue">Enjoy the good life everyday！！!</h2>
         ''',
         status_code=http_status.HTTP_200_OK,
-        headers={'X-Token': "I'm is test token............................................"}
+        headers={'X-Token': "I'm is test token............................................."}
     )
 
 
