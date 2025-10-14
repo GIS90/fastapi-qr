@@ -95,7 +95,7 @@ class QRWebAppClass(WebBaseClass):
         # 基础信息
         self.app.title = SERVER_NAME
         self.app.summary = "作者：高明亮"
-        self.app.description = "Z2lisapi系统基于Python语言研发，使用FastAPI搭建的后端APIs。"     # 支持Markdown语法
+        self.app.description = "基于Python语言研发，使用FastAPI搭建的后端APIs 脚手架。"     # 支持Markdown语法
         self.app.version = SERVER_VERSION
         # 开发配置
         self.app.debug = SERVER_DEBUG
