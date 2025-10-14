@@ -48,7 +48,7 @@ from fastapi.responses import Response, \
     StreamingResponse, FileResponse
 
 from deploy.reqbody.base import UserBody as User
-from deploy.utils.status import Status
+from deploy.utils.status import Status, SuccessStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 
@@ -90,18 +90,15 @@ Path
           summary="--必填--资源参数请求示例",
           description="必填资源参数请求"
           )
-async def path_base(rtx_id: str) -> dict:
+async def path_base(rtx_id: str) -> Status:
     """
     必填资源参数请求示例
     :param rtx_id: [str]资源请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id}
+    )
 
 
 @base.get('/user/path-str/{rtx_id}',
@@ -111,18 +108,15 @@ async def path_base(rtx_id: str) -> dict:
           )
 async def path_str(
         rtx_id: str = Path(..., description="[字符型]资源参数rtx_id", min_length=1, max_length=12)
-) -> dict:
+) -> Status:
     """
     Path限制字符型资源参数请求示例
     :param rtx_id: [str]资源请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id}
+    )
 
 
 @base.get('/user/path-str-regex/{rtx_id}',
@@ -132,18 +126,15 @@ async def path_str(
           )
 async def path_str_regex(
         rtx_id: str = Path(..., description="[字符型]资源参数rtx_id", min_length=1, max_length=12, regex="user")
-) -> dict:
+) -> Status:
     """
     Path限制字符型资源参数请求示例
     :param rtx_id: [str]资源请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id}
+    )
 
 
 @base.get('/user/path-int/{rtx_id}',
@@ -153,18 +144,15 @@ async def path_str_regex(
           )
 async def path_int(
         rtx_id: int = Path(..., description="[整型]资源参数rtx_id", ge=1, le=10000)
-) -> dict:
+) -> Status:
     """
     Path限制整型资源参数请求示例
     :param rtx_id: [int]资源请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id}
+    )
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -177,36 +165,30 @@ Query
           summary="--必填--查询参数请求示例",
           description="必填查询参数请求"
           )
-async def query_base(rtx_id: str) -> dict:
+async def query_base(rtx_id: str) -> Status:
     """
     必填查询参数请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id}
+    )
 
 
 @base.get('/user/query/null',
           summary="==非必填==查询参数请求示例",
           description="使用typing.Optional定义参数，参数值可为空值，在参数传递过程中设置默认值，为空可设置None"
           )
-async def query_null(rtx_id: Optional[str] = None) -> dict:
+async def query_null(rtx_id: Optional[str] = None) -> Status:
     """
     非必填查询参数请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id or "default: qr"}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id or "default: qr"}
+    )
 
 
 @base.get('/user/query/q-str',
@@ -216,18 +198,15 @@ async def query_null(rtx_id: Optional[str] = None) -> dict:
           )
 async def query_q_str(
         rtx_id: str = Query(..., description="查询参数rtx_id", min_length=1, max_length=12)
-) -> dict:
+) -> Status:
     """
     Query限制字符型查询参数请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id}
+    )
 
 
 @base.get('/user/query/q-str-regex',
@@ -237,18 +216,15 @@ async def query_q_str(
           )
 async def query_q_str_regex(
         rtx_id: str = Query(..., description="查询参数rtx_id", min_length=1, max_length=12, regex="user")
-) -> dict:
+) -> Status:
     """
     Query限制字符型查询参数请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id}
+    )
 
 
 @base.get('/user/query/q-int',
@@ -258,19 +234,15 @@ async def query_q_str_regex(
           )
 async def query_q_int(
         rtx_id: int = Query(..., description="查询参数rtx_id", ge=1, le=10000)
-) -> dict:
+) -> Status:
     """
     Query限制整型查询参数请求示例
     :param rtx_id: [int]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id}
-    ).status_body
-
+    return SuccessStatus(
+        data={'rtx_id': rtx_id}
+    )
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 """
@@ -290,7 +262,7 @@ Body
            )
 def body(
         user: User
-) -> dict:
+) -> Status:
     """
     Pydantic模型请求体请求示例
     :param user: User Pydantic模型
@@ -298,12 +270,9 @@ def body(
 
     dict()在新版本过时
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        user.model_dump()
-    ).status_body
+    return SuccessStatus(
+        data=user.model_dump()
+    )
 
 
 @base.post("/request_body/user/{rtx_id}",
@@ -315,7 +284,7 @@ def body_request_body(
         work_year: int = Query(..., description="查询参数work_year", ge=1, le=100),
         work_city: str = Query(..., description="资源参数work_city", min_length=1, max_length=12),
         user: Optional[User] = None
-) -> dict:
+) -> Status:
     """
     :param rtx_id: [str]资源参数rtx_id
     :param work_year: [int]查询参数work_year
@@ -325,12 +294,9 @@ def body_request_body(
 
     dict()在新版本过时
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {"rtx_id": rtx_id, "work_year": work_year, "work_city": work_city, "user": user.model_dump()}
-    ).status_body
+    return SuccessStatus(
+        data={"rtx_id": rtx_id, "work_year": work_year, "work_city": work_city, "user": user.model_dump()}
+    )
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -346,19 +312,16 @@ Form
 def form(
         username: str = Form(..., min_length=1, max_length=12, description="Form表单参数username"),
         password: str = Form(..., min_length=1, max_length=12, description="Form表单参数password")
-) -> dict:
+) -> Status:
     """
     Cookie参数请求示例
     :param username: [str]Form表单参数username
     :param password: [str]Form表单参数password
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'username': username, 'password': password}
-    ).status_body
+    return SuccessStatus(
+        data={'username': username, 'password': password}
+    )
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -373,18 +336,15 @@ Cookie
           )
 def cookie(
         cookie_id: Optional[str] = Cookie(None, description="Cookie参数")
-) -> dict:
+) -> Status:
     """
     Cookie参数请求示例
     :param cookie_id: [str]Cookie请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'cookie_id': cookie_id}
-    ).status_body
+    return SuccessStatus(
+        data={'cookie_id': cookie_id}
+    )
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -400,7 +360,7 @@ Header
 def header(
         user_agent: Optional[str] = Header(None, convert_underscores=True, description="User-Agent"),
         x_token: str = Header(..., min_length=1, max_length=25, convert_underscores=True, description="X-Token")
-) -> dict:
+) -> Status:
     """
     Header参数请求示例
     有些HTTP代理和服务器是不允许在请求头中带有下划线的，Header提供convert_underscores属性进行设置
@@ -409,12 +369,9 @@ def header(
     :param x_token: [str]Header参数x_token
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {"User-Agent": user_agent, "X-Token": x_token}
-    ).status_body
+    return SuccessStatus(
+        data={"User-Agent": user_agent, "X-Token": x_token}
+    )
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 """
@@ -428,15 +385,10 @@ deprecated
           status_code=http_status.HTTP_200_OK,
           deprecated=True
           )
-async def deprecated() -> dict:
+async def deprecated() -> Status:
     """
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {}
-    ).status_body
+    return SuccessStatus()
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *

@@ -74,7 +74,7 @@ from fastapi.responses import Response, \
     JSONResponse, StreamingResponse, RedirectResponse
 
 from deploy.utils.enums import MediaType
-from deploy.utils.status import Status
+from deploy.utils.status import Status, SuccessStatus, FailureStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.reqbody.response import UserIn, UserOut
@@ -162,7 +162,7 @@ async def json_response() -> JSONResponse:
     + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + """
     headers.update({"type": "JSONResponse"})
     content = Status(
-        100, 'success', "I'm JSONResponse", {"k1": "v1", "k2": "v2", "k3": "v3"}
+        100, "I'm JSONResponse", {"k1": "v1", "k2": "v2", "k3": "v3"}
     ).status_body
     return JSONResponse(
         content=content,
@@ -201,7 +201,7 @@ async def response_model_include(data_id: str):
     """
     :return: JSON
     """
-    return data.get(data_id)
+    return data.get(data_id) or {"username": "无此用户"}
 
 
 @response.post("/response-model-exclude/{data_id}",
@@ -213,7 +213,7 @@ async def response_model_exclude(data_id: str):
     """
     :return: JSON
     """
-    return data.get(data_id)
+    return data.get(data_id) or {"username": "无此用户"}
 
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *

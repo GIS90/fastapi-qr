@@ -35,7 +35,7 @@ Life is short, I use python.
 # ------------------------------------------------------------
 from fastapi import APIRouter, Query, Request
 
-from deploy.utils.status import Status
+from deploy.utils.status import Status, SuccessStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 

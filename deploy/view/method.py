@@ -43,7 +43,7 @@ Life is short, I use python.
 # ------------------------------------------------------------
 from fastapi import APIRouter, Query
 
-from deploy.utils.status import Status
+from deploy.utils.status import Status, SuccessStatus, FailureStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 
@@ -56,125 +56,104 @@ method = APIRouter(prefix="/method", tags=["METHOD请求方法"])
             summary="GET请求请求示例",
             description="GET请求请求示例"
             )
-async def method_get(rtx_id: str) -> dict:
+async def method_get(rtx_id: str) -> Status:
     """
     GET请求请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id, 'method': 'get'}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id, 'method': 'get'}
+    )
 
 
 @method.post('/post',
              summary="POST请求请求示例",
              description="POST请求请求示例"
              )
-async def method_post(rtx_id: str) -> dict:
+async def method_post(rtx_id: str) -> Status:
     """
     POST请求请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id, 'method': 'post'}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id, 'method': 'post'}
+    )
 
 
 @method.put('/put',
             summary="PUT请求请求示例",
             description="PUT请求请求示例"
             )
-async def method_put(rtx_id: str) -> dict:
+async def method_put(rtx_id: str) -> Status:
     """
     PUT请求请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id, 'method': 'put'}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id, 'method': 'put'}
+    )
 
 
 @method.delete('/delete',
                summary="DELETE请求请求示例",
                description="DELETE请求请求示例"
                )
-async def method_delete(rtx_id: str) -> dict:
+async def method_delete(rtx_id: str) -> Status:
     """
     DELETE请求请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id, 'method': 'delete'}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id, 'method': 'delete'}
+    )
 
 
 @method.head('/head',
              summary="HEAD请求请求示例",
              description="HEAD请求请求示例"
              )
-async def method_head(rtx_id: str) -> dict:
+async def method_head(rtx_id: str) -> Status:
     """
     HEAD请求请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id, 'method': 'head'}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id, 'method': 'head'}
+    )
 
 
 @method.options('/options',
                 summary="OPTIONS请求请求示例",
                 description="OPTIONS请求请求示例"
                 )
-async def method_options(rtx_id: str) -> dict:
+async def method_options(rtx_id: str) -> Status:
     """
     OPTIONS请求请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id, 'method': 'options'}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id, 'method': 'options'}
+    )
 
 
 @method.patch('/patch',
               summary="PATCH请求请求示例",
               description="PATCH请求请求示例"
               )
-async def method_patch(rtx_id: str) -> dict:
+async def method_patch(rtx_id: str) -> Status:
     """
     PATCH请求请求示例
     :param rtx_id: [str]查询请求参数
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {'rtx_id': rtx_id, 'method': 'patch'}
-    ).status_body
+    return SuccessStatus(
+        data={'rtx_id': rtx_id, 'method': 'patch'}
+    )
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *

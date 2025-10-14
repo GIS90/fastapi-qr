@@ -36,7 +36,7 @@ Life is short, I use python.
 from fastapi import APIRouter, HTTPException, status as http_status
 from fastapi.exceptions import RequestValidationError
 
-from deploy.utils.status import Status
+from deploy.utils.status import Status, FailureStatus, SuccessStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 
@@ -52,7 +52,7 @@ error = APIRouter(prefix="/error", tags=["ERROR错误"])
            )
 async def error_http_exception_404(
         exec: bool = False
-) -> dict:
+) -> Status:
     """
     自定义HTTPException异常处理 > HTTP_404_NOT_FOUND
     :param exec: 是否触发异常
@@ -65,12 +65,7 @@ async def error_http_exception_404(
             headers={"error": "HTTP_404_NOT_FOUND"}
         )
 
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {"error": "http_exception [HTTP_404_NOT_FOUND]"}
-    ).status_body
+    return SuccessStatus()
 
 
 @error.get('/http_exception/500',
@@ -78,7 +73,7 @@ async def error_http_exception_404(
            )
 async def error_http_exception_500(
     exec: bool = False
-) -> dict:
+) -> Status:
     """
     自定义HTTPException异常处理 > HTTP_500_INTERNAL_SERVER_ERROR
     :param exec: 是否触发异常
@@ -91,12 +86,7 @@ async def error_http_exception_500(
             headers={"error": "HTTP_500_INTERNAL_SERVER_ERROR"}
         )
 
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {"error": "http_exception [HTTP_500_INTERNAL_SERVER_ERROR]"}
-    ).status_body
+    return SuccessStatus()
 
 
 @error.get('/request_valid_error',
@@ -104,7 +94,7 @@ async def error_http_exception_500(
            )
 async def error_request_valid_error(
     exec: bool = False
-) -> dict:
+) -> Status:
     """
     自定义RequestValidationError异常处理
     :param exec: 是否触发异常
@@ -117,11 +107,6 @@ async def error_request_valid_error(
             errors={"errors": "RequestValidationError"},
         )
 
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {}
-    ).status_body
+    return SuccessStatus()
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *

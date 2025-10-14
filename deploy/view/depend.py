@@ -43,7 +43,7 @@ from fastapi.exceptions import HTTPException
 from pydantic import Field
 
 from deploy.reqbody.depend import BasePageBody
-from deploy.utils.status import Status
+from deploy.utils.status import Status, SuccessStatus, FailureStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 
@@ -57,7 +57,7 @@ depend = APIRouter(prefix="/depend", tags=["Depend依赖注入"])
 函数依赖
 """
 # 页面数据通用参数
-async def page_common_parameters(parameter: BasePageBody) -> dict:
+async def page_common_parameters(parameter: BasePageBody) -> Status:
     return parameter.model_dump()
 
 
@@ -65,32 +65,26 @@ async def page_common_parameters(parameter: BasePageBody) -> dict:
              summary="[函数依赖]同步请求依赖注入",
              description="方法使用同步请求"
              )
-def function_depend(page: dict = Depends(page_common_parameters)) -> dict:
+def function_depend(page: dict = Depends(page_common_parameters)) -> Status:
     """
     :return: JSON
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {**page, **{"request": "同步请求", "type": "function"}}
-    ).status_body
+    return SuccessStatus(
+        data={**page, **{"request": "同步请求", "type": "function"}}
+    )
 
 
 @depend.post('/function_async_depend',
              summary="[函数依赖]异步请求依赖注入",
              description="方法使用async异步请求"
              )
-async def function_async_depend(page: dict = Depends(page_common_parameters)) -> dict:
+async def function_async_depend(page: dict = Depends(page_common_parameters)) -> Status:
     """
     :return: JSON
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {**page, **{"request": "异步请求", "type": "function"}}
-    ).status_body
+    return SuccessStatus(
+        data={**page, **{"request": "异步请求", "type": "function"}}
+    )
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -111,7 +105,7 @@ class PageClass(object):
              summary="[类依赖]同步请求依赖注入",
              description="方法使用同步请求"
              )
-def class_depend(page=Depends(PageClass)) -> dict:
+def class_depend(page=Depends(PageClass)) -> Status:
     """
     :return: JSON
     """
@@ -119,19 +113,16 @@ def class_depend(page=Depends(PageClass)) -> dict:
         "page": page.page,
         "limit": page.limit
     }
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {**new_page, **{"request": "同步请求", "type": "class"}}
-    ).status_body
+    return SuccessStatus(
+        data={**new_page, **{"request": "同步请求", "type": "class"}}
+    )
 
 
 @depend.post('/class_async_depend',
              summary="[类依赖]异步请求依赖注入",
              description="方法使用async异步请求"
              )
-async def class_async_depend(page=Depends(PageClass)) -> dict:
+async def class_async_depend(page=Depends(PageClass)) -> Status:
     """
     :return: JSON
     """
@@ -139,12 +130,9 @@ async def class_async_depend(page=Depends(PageClass)) -> dict:
         "page": page.page,
         "limit": page.limit
     }
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {**new_page, **{"request": "异步请求", "type": "class"}}
-    ).status_body
+    return SuccessStatus(
+        data={**new_page, **{"request": "异步请求", "type": "class"}}
+    )
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -157,7 +145,7 @@ async def one_depend(q1: str) -> str:
 
 
 # 二级依赖
-async def two_depend(q1: str = Depends(one_depend), q2: Optional[str] = None) -> dict:
+async def two_depend(q1: str = Depends(one_depend), q2: Optional[str] = None) -> Status:
     return {"q1": q1, "q2": q2}
 
 
@@ -165,32 +153,26 @@ async def two_depend(q1: str = Depends(one_depend), q2: Optional[str] = None) ->
              summary="[子依赖]同步请求依赖注入",
              description="方法使用同步请求"
              )
-def sub_depend(page: dict = Depends(two_depend, use_cache=True)) -> dict:
+def sub_depend(page: dict = Depends(two_depend, use_cache=True)) -> Status:
     """
     :return: JSON
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {**page, **{"request": "同步请求", "type": "function"}}
-    ).status_body
+    return SuccessStatus(
+        data={**page, **{"request": "同步请求", "type": "function"}}
+    )
 
 
 @depend.post('/sub_async_depend',
              summary="[子依赖]异步请求依赖注入",
              description="方法使用async异步请求"
              )
-async def sub_async_depend(page: dict = Depends(two_depend, use_cache=True)) -> dict:
+async def sub_async_depend(page: dict = Depends(two_depend, use_cache=True)) -> Status:
     """
     :return: JSON
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {**page, **{"request": "异步请求", "type": "function"}}
-    ).status_body
+    return SuccessStatus(
+        data={**page, **{"request": "异步请求", "type": "function"}}
+    )
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -222,16 +204,13 @@ async def verify_token(x_token: str = Header(...)) -> str:
              description="方法使用同步请求，参数值为a返回异常处理",
              dependencies=[Depends(verify_key), Depends(verify_token)]
              )
-def route_depend() -> dict:
+def route_depend() -> Status:
     """
     :return: JSON
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {"request": "同步请求", "type": "route"}
-    ).status_body
+    return SuccessStatus(
+        data={"request": "同步请求", "type": "route"}
+    )
 
 
 @depend.post('/route_async_depend',
@@ -239,16 +218,13 @@ def route_depend() -> dict:
              description="方法使用async异步请求，参数值为a返回异常处理",
              dependencies=[Depends(verify_key), Depends(verify_token)]
              )
-async def route_async_depend() -> dict:
+async def route_async_depend() -> Status:
     """
     :return: JSON
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {"request": "异步请求", "type": "route"}
-    ).status_body
+    return SuccessStatus(
+        data={"request": "异步请求", "type": "route"}
+    )
 
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =

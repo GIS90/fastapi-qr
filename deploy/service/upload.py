@@ -38,7 +38,7 @@ from datetime import datetime
 from fastapi import File, UploadFile
 from pathlib import Path as pathlib_path, PurePath as pathlib_purep
 from deploy.utils.utils import get_root_folder, d2s
-from deploy.utils.status import Status
+from deploy.utils.status import Status, SuccessStatus, FailureStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 
@@ -66,19 +66,16 @@ class UploadService(object):
     def __repr__(self):
         self.__str__()
 
-    def file_api(self, file: File) -> dict:
+    def file_api(self, file: File) -> Status:
         """
         File单个小文件上传
         :param file: [File]File文件对象
         :return:
         """
         if not file:
-            return Status(
-                Status_code.CODE_450_REQUEST_FILE_NO_UPLOAD,
-                Status_enum.FAILURE,
-                Status_msg.get(450),
-                {}
-            ).status_body
+            return FailureStatus(
+                status_id=Status_code.CODE_450_REQUEST_FILE_NO_UPLOAD
+            )
 
         file_name = d2s(datetime.now())  # custom define upload file name
         real_file = pathlib_path.joinpath(abs_store_folder, file_name)
@@ -88,26 +85,18 @@ class UploadService(object):
         # - - - - - - - - - - - - - write file - - - - - - - - - - - - -
         with open(real_file, 'wb') as f:
             f.write(file)
-        return Status(
-            Status_code.CODE_100_SUCCESS,
-            Status_enum.SUCCESS,
-            Status_msg.get(100),
-            {"file": real_file}
-        ).status_body
+        return SuccessStatus()
 
-    async def upload_file_api(self, file: UploadFile) -> dict:
+    async def upload_file_api(self, file: UploadFile) -> Status:
         """
         UploadFile单个大文件上传
         :param file: [UploadFile]UploadFile上传文件对象
         :return: json
         """
         if not file:
-            return Status(
-                Status_code.CODE_450_REQUEST_FILE_NO_UPLOAD,
-                Status_enum.FAILURE,
-                Status_msg.get(450),
-                {}
-            ).status_body
+            return FailureStatus(
+                status_id=Status_code.CODE_450_REQUEST_FILE_NO_UPLOAD
+            )
 
         file_name = getattr(file, 'filename')  # use getattr method to get file name
         if not file_name:
@@ -120,9 +109,4 @@ class UploadService(object):
         with open(real_file, "wb") as f:
             while content := await file.read(self.READ_SIZE):
                 f.write(content)
-        return Status(
-            Status_code.CODE_100_SUCCESS,
-            Status_enum.SUCCESS,
-            Status_msg.get(100),
-            {"file": real_file}
-        ).status_body
+        return SuccessStatus()

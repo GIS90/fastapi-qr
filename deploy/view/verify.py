@@ -35,7 +35,7 @@ Life is short, I use python.
 # ------------------------------------------------------------
 from fastapi import APIRouter, Depends, Request, Header
 
-from deploy.utils.status import Status
+from deploy.utils.status import Status, SuccessStatus, FailureStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.view.access import decode_token_rtx, verify_token_rtx
@@ -57,7 +57,7 @@ API利用Token进行验证，很多API都是在资源参数/查询参数/Header/
 @verify.get("/v1",
             summary="校验Token的rtx-id数据，V1示例：无请求体参数",
             description=verify_description)
-async def verify_v1(request: Request) -> dict:
+async def verify_v1(request: Request) -> Status:
     """
     token_user_rtx: [str]当前Token登录对象rtx-id
     :return: json
@@ -65,12 +65,7 @@ async def verify_v1(request: Request) -> dict:
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     """调用service业务逻辑代码"""
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        "依赖注入全局Router：Token与传入rtx-id校验通过了" or Status_msg.get(100),
-        {}
-    ).status_body
+    return SuccessStatus()
 
 
 @verify.post("/v2",
@@ -79,7 +74,7 @@ async def verify_v1(request: Request) -> dict:
 async def verify_v2(
         user: UserBody,
         x_rtx_id: str = Header(..., min_length=1, max_length=25, convert_underscores=True, description="X-Token")
-) -> dict:
+) -> Status:
     """
     token_user_rtx: [str]当前Token登录对象rtx-id
     :return: json
@@ -87,10 +82,5 @@ async def verify_v2(
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     """调用service业务逻辑代码"""
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        "依赖注入全局Router：Token与传入rtx-id校验通过了" or Status_msg.get(100),
-        {**user.model_dump(), **{"x-rtx-id": x_rtx_id}}
-    ).status_body
+    return SuccessStatus()
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *

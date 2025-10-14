@@ -40,7 +40,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 
 from deploy.reqbody.access import TokenBody as Token, O2LUserLogin
-from deploy.utils.status import Status
+from deploy.utils.status import Status, SuccessStatus, FailureStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 from deploy.utils.utils import d2s
@@ -83,7 +83,7 @@ credentials_exception = HTTPException(
              summary="用户Token API[OAuth2PasswordRequestForm组件表单] > Demo代码",
              description="依据用户[OAuth2PasswordRequestForm组件表单]提供的username，password参数（KEY不可更改），获取用户登录Token"
              )
-async def access_token_request_o_form(form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm)) -> dict:
+async def access_token_request_o_form(form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm)) -> Status:
     """
     用户Token API
     :param form_data: OAuth2PasswordRequestForm组件表单
@@ -92,12 +92,9 @@ async def access_token_request_o_form(form_data: OAuth2PasswordRequestForm = Dep
     username = getattr(form_data, "username", None)
     password = getattr(form_data, "password", None)
     if not username or not password:
-        return Status(
-            Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value,
-            Status_enum.FAILURE.value,
-            Status_msg.get(204),
-            {}
-        ).status_body
+        return FailureStatus(
+            status_id=Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value
+        )
 
     # TODO 用户校验
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -110,7 +107,9 @@ async def access_token_request_o_form(form_data: OAuth2PasswordRequestForm = Dep
         expires_delta=access_token_expires
     )
     # = = = = = = = = = = = = == = = = end token = = = = = == = = = = = = = = = =
-    return {"access_token": token, "token_type": "Bearer"}
+    return SuccessStatus(
+        data={"access_token": token, "token_type": "Bearer"}
+    )
 
 
 @access.post("/token_request_form",
@@ -121,7 +120,7 @@ async def access_token_request_o_form(form_data: OAuth2PasswordRequestForm = Dep
 async def access_token_request_from(
     username: str = Query(..., min_length=1, max_length=25, description="用户名称"),
     password: str = Query(..., min_length=1, max_length=30, description="用户密码")
-) -> dict:
+) -> Status:
     """
     用户Token API
     :param username: Form表单对象
@@ -130,12 +129,9 @@ async def access_token_request_from(
     """
     if not username \
             or not password:
-        return Status(
-            Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value,
-            Status_enum.FAILURE.value,
-            Status_msg.get(204),
-            {}
-        ).status_body
+        return FailureStatus(
+            status_id=Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value
+        )
 
     # TODO 用户校验
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -148,7 +144,9 @@ async def access_token_request_from(
         expires_delta=access_token_expires
     )
     # = = = = = = = = = = = = == = = = end token = = = = = == = = = = = = = = = =
-    return {"access_token": token, "token_type": "Bearer"}
+    return SuccessStatus(
+        data={"access_token": token, "token_type": "Bearer"}
+    )
 
 
 @access.post("/token_request_body",
@@ -156,7 +154,7 @@ async def access_token_request_from(
              summary="用户Token API[Request Body] > Demo代码",
              description="依据用户[Request Body]提供的username，password参数（KEY不可更改），获取用户登录Token"
              )
-async def access_token_request_body(body_data: O2LUserLogin) -> dict:
+async def access_token_request_body(body_data: O2LUserLogin) -> Status:
     """
     用户Token API
     :param body_data: Request Body
@@ -166,12 +164,9 @@ async def access_token_request_body(body_data: O2LUserLogin) -> dict:
     password = getattr(body_data, "password", None)
     # 缺少登录参数
     if not username or not password:
-        return Status(
-            Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value,
-            Status_enum.FAILURE.value,
-            Status_msg.get(204),
-            {}
-        ).status_body
+        return FailureStatus(
+            status_id=Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value
+        )
 
     # TODO 用户校验
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -184,7 +179,9 @@ async def access_token_request_body(body_data: O2LUserLogin) -> dict:
         expires_delta=access_token_expires
     )
     # = = = = = = = = = = = = == = = = end token = = = = = == = = = = = = = = = =
-    return {"access_token": token, "token_type": "Bearer"}
+    return SuccessStatus(
+        data={"access_token": token, "token_type": "Bearer"}
+    )
 
 
 # ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ * ～ *
@@ -305,18 +302,15 @@ description = """主要用于API的rtx-id获取，
             )
 async def jwt_token_me(
         token_user_rtx: str = Depends(decode_token_rtx)
-):
+) -> Status:
     """
     获取当前Token登录对象rtx-id
     :param token_user_rtx: [str]当前Token登录对象rtx-id
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS.value,
-        Status_enum.SUCCESS.value,
-        Status_msg.get(100),
-        {'decode_rtx_id': token_user_rtx}
-    ).status_body
+    return SuccessStatus(
+        data={'decode_rtx_id': token_user_rtx}
+    )
 
 
 @access.get("/verify-me",
@@ -325,18 +319,15 @@ async def jwt_token_me(
             )
 async def jwt_token_verify_me(
         token_user_rtx: str = Depends(verify_token_rtx)
-):
+) -> Status:
     """
     验证当前Token登录对象rtx-id与Header的rtx-id是否一致
     :param token_user_rtx: [str]当前Token登录对象rtx-id
     :return: json
     """
-    return Status(
-        Status_code.CODE_100_SUCCESS.value,
-        Status_enum.SUCCESS.value,
-        Status_msg.get(100),
-        {'verify_rtx_id': token_user_rtx}
-    ).status_body
+    return SuccessStatus(
+        data={'verify_rtx_id': token_user_rtx}
+    )
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -352,7 +343,7 @@ Open2lisapi APIs：
              summary="[Open2lisapi]Login登录",
              description="Open2lisapi后端APIs的login登录API，参数位username、password，用来登录获取用户信息、JWT-Token"
              )
-async def open2lisapi_login(body_data: O2LUserLogin) -> dict:
+async def open2lisapi_login(body_data: O2LUserLogin) -> Status:
     """
     Open2lisapi: Login登录
     :return: json data
@@ -364,28 +355,25 @@ async def open2lisapi_login(body_data: O2LUserLogin) -> dict:
     # 缺少登录参数
     if not username \
             or not password:
-        return Status(
-            Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value,
-            Status_enum.FAILURE.value,
-            Status_msg.get(204),
-            {}
-        ).status_body
+        return FailureStatus(
+            Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value
+        )
 
     # 用户信息核对
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     user = access_service.open2lisapi_login_rtx(rtx_id=username)
     # >>> user is not exist
     if not user:
-        return Status(
-            Status_code.CODE_201_LOGIN_USER_NOT_EXIST.value, Status_enum.FAILURE.value, Status_msg.get(201), {}).status_body
+        return FailureStatus(
+            status_id=Status_code.CODE_201_LOGIN_USER_NOT_EXIST.value)
     # >>> user is deleted
     if user.get('is_del'):
-        return Status(
-            Status_code.CODE_203_LOGIN_USER_OFF.value, Status_enum.FAILURE.value, Status_msg.get(203), {}).status_body
+        return FailureStatus(
+            status_id=Status_code.CODE_203_LOGIN_USER_OFF.value)
     # >>> check password
     if user.get('password') != password:
-        return Status(
-            Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value, Status_enum.FAILURE.value, Status_msg.get(204), {}).status_body
+        return FailureStatus(
+            status_id=Status_code.CODE_204_LOGIN_USER_PASSWORD_ERROR.value)
     # 删除密码
     if user.get('password'):
         del user['password']
@@ -398,7 +386,9 @@ async def open2lisapi_login(body_data: O2LUserLogin) -> dict:
         expires_delta=access_token_expires
     )
     # = = = = = = = = = = = = == = = = end token = = = = = == = = = = = = = = = =
-    return {"access_token": token, "token_type": "Bearer", "user": user}
+    return SuccessStatus(
+        data={"access_token": token, "token_type": "Bearer", "user": user}
+    )
 
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *

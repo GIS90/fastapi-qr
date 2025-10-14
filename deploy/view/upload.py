@@ -48,7 +48,7 @@ from fastapi import APIRouter, status as http_status, \
 from typing import Optional, Union, List, Tuple, Dict
 
 from deploy.service.upload import UploadService
-from deploy.utils.status import Status
+from deploy.utils.status import Status, SuccessStatus, FailureStatus
 from deploy.utils.status_value import StatusEnum as Status_enum, \
     StatusMsg as Status_msg, StatusCode as Status_code
 
@@ -67,7 +67,7 @@ upload_service = UploadService()
              )
 async def file_api(
         file: bytes = File(...)
-) -> dict:
+) -> Status:
     """
     File单个小文件上传
     :param file: [File]File文件对象
@@ -81,7 +81,7 @@ async def file_api(
              description="多个小文件上传，使用的就是List，其中元素都是File对象，不推荐使用")
 async def files_api(
         files: List[bytes] = File(...)
-) -> dict:
+) -> Status:
     """
     File单个多文件上传
     :param files: [list]File文件对象列表
@@ -94,12 +94,7 @@ async def files_api(
         if res.get('status_id'):
             result.append(res.get('data').get('file'))
 
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {"file-list": result, "file-count": len(result)}
-    ).status_body
+    return SuccessStatus()
 
 
 @upload.post('/upload_file',
@@ -107,7 +102,7 @@ async def files_api(
              description="单个大文件上传，UploadFile对象可以获取文件属性，具体参数请查看UploadFile源码，推荐使用")
 async def upload_file(
         file: UploadFile = File(...)
-) -> dict:
+) -> Status:
     """
     UploadFile单个大文件上传
     :param file: [UploadFile]UploadFile上传文件对象
@@ -121,7 +116,7 @@ async def upload_file(
              description="多个大文件上传，UploadFile对象可以获取文件属性，具体参数请查看UploadFile源码，推荐使用")
 async def upload_files(
         files: List[UploadFile] = File(...)
-) -> dict:
+) -> Status:
     """
     UploadFile多个大文件上传
     :param files: [UploadFile]UploadFile上传文件对象集合
@@ -133,11 +128,6 @@ async def upload_files(
         res = await upload_service.upload_file_api(file=f)
         if res.get('status_id'):
             result.append(res.get('data').get('file'))
-    return Status(
-        Status_code.CODE_100_SUCCESS,
-        Status_enum.SUCCESS,
-        Status_msg.get(100),
-        {"file-list": result, "file-count": len(result)}
-    ).status_body
+    return SuccessStatus()
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * [ END ] * * * * * * * * * * * * * * * * * * * * * * * * * * *
