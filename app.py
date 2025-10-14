@@ -44,7 +44,7 @@ app = create_app()
 """========================================================================================="""
 # manual startup(DEV)
 if __name__ == "__main__":
-    config = uvicorn.Config("app:app", port=54321, log_level="debug", reload=True)
+    config = uvicorn.Config("app:app", port=22222, log_level="debug", reload=True)
     server = uvicorn.Server(config)
     server.run()
 """========================================================================================="""
