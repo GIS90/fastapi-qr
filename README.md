@@ -175,6 +175,8 @@ mysqldump
   - deploy>delib>store_lib.py    
     对象存储  
     使用了七牛（qiniu.com）面对对象存储，注册免费使用10G空间
+  - deploy>delib>redis_lib.py    
+    Redis
 
     
 > ## 其他
