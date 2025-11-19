@@ -44,7 +44,7 @@ class WebBaseClass(ABC):
 
     def __init__(self):
         super(WebBaseClass, self).__init__()
-        self.init_run()
+        self.entry_point()
 
     def __str__(self):
         return "WebBaseClass Class."
