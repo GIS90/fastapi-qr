@@ -34,9 +34,10 @@ Life is short, I use python.
 # usage: /usr/bin/python base_class.py
 # ------------------------------------------------------------
 import threading
+from abc import ABC, abstractmethod
 
 
-class WebBaseClass(object):
+class WebBaseClass(ABC):
     """单例模式+WEB[init_run]"""
     _instance = None
     _instance_lock = threading.Lock()
@@ -57,6 +58,7 @@ class WebBaseClass(object):
                 cls._instance = object.__new__(cls)
         return cls._instance
 
-    def init_run(self):
+    @abstractmethod
+    def entry_point(self):
         pass
 

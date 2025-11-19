@@ -150,7 +150,7 @@ class QRWebAppClass(WebBaseClass):
             if not route: continue
             self.register_blueprint(router=route)
 
-    def init_run(self):
+    def entry_point(self):
         """
         web app initialize
         :return: None
